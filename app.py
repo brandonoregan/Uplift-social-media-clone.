@@ -1,12 +1,17 @@
-from flask import Flask, render_template, url_for, redirect
+from flask import Flask, render_template, url_for, redirect, request
 from forms import SignUpForm, LoginForm
+from config import Config
+from models import db, User, Post, Like, Comment
 
-# Create an instance of the Flask class
+
+# create an instance of the Flask class
 app = Flask(__name__)
 
-# Create secrkey key
-app.config["SECRET_KEY"] = "secret"
+# load config settings from config.py
+app.config.from_object(Config)
 
+# initialize the SQLAlchemy instance with the app
+db.init_app(app)
 
 # This decorater will render the associated template when the specified route is accessed.
 @app.route("/", methods=["GET", "POST"])
@@ -16,20 +21,20 @@ def signup():
 
 
 # This decorater will render the associated template when the specified route is accessed.
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def render_login():
     form = LoginForm()
     return render_template("login.html", form=form)
 
 
 # This decorater will render the associated template when the specified route is accessed.
-@app.route("/home")
+@app.route("/home", methods=["GET", "POST"])
 def render_home():
     return render_template("home.html")
 
 
 # This decorater will render the associated template when the specified route is accessed.
-@app.route("/profile")
+@app.route("/profile", methods=["GET", "POST"])
 def render_profile():
     return render_template("profile.html")
 
@@ -39,6 +44,10 @@ def render_profile():
 def logout():
     return redirect(url_for("render_login"))
 
+
+# Create all db tables
+with app.app_context():
+    db.create_all()
 
 if __name__ == "__main__":
     app.run(debug=True)
