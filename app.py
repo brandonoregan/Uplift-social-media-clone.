@@ -17,6 +17,14 @@ db.init_app(app)
 @app.route("/", methods=["GET", "POST"])
 def signup():
     form = SignUpForm()
+    if request.method == "POST":
+        username = form.username.data
+        email = form.email.data
+        password = form.password.data
+        user = User(username=username, email=email, password=password)
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for('render_home'))
     return render_template("index.html", form=form)
 
 
