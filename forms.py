@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, validators
-
+from wtforms import StringField, PasswordField, SubmitField, validators, ValidationError
+from models import User
 
 # Class for the login form
 class LoginForm(FlaskForm):
@@ -18,3 +18,11 @@ class LoginForm(FlaskForm):
 # Class for the sign up form which inherits the login class
 class SignUpForm(LoginForm):
     email = StringField("Email", [validators.InputRequired()])
+
+    # def validate_username(self, username):
+    #     existing_user_username = User.query.filter_by(username=username.data).first()
+
+    #     if existing_user_username:
+    #         raise ValidationError(
+    #             "That username already exists. Please provide another username."
+    #         )

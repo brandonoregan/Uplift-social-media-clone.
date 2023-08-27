@@ -1,6 +1,8 @@
 {% extends 'base.html' %} {% block title %}{% endblock %} {% block content %}
 <h1>Sign up</h1>
 <form action="{{ url_for('signup') }}" method="post">
+  <!-- REFACTOR this code can be looped through to create each field and placed into a seperate html file and broguth back with the inlcudes jinja template -->
+  {{ form.csrf_token }}
   <p>
     {{ form.email.label }} <br />
     {{ form.email() }}
@@ -14,5 +16,9 @@
     {{ form.password() }}
   </p>
   <p>{{ form.submit() }}</p>
+  {% if form.errors %} {% for field, errors in form.errors.items() %} {% for
+  error in errors %}
+  <div class="alert alert-danger">{{ field }}: {{ error }}</div>
+  {% endfor %} {% endfor %} {% endif %}
 </form>
 {% endblock %}
