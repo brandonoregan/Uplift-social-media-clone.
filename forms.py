@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, validators, ValidationError
 from models import User
 
+
 # Class for the login form
 class LoginForm(FlaskForm):
     username = StringField(

@@ -1,10 +1,17 @@
-from flask import Flask, render_template, url_for, redirect, request, flash, get_flashed_messages
-from flask_login import UserMixin, LoginManager, login_user, login_required, logout_user
+from flask import (
+    Flask,
+    render_template,
+    url_for,
+    redirect,
+    request,
+    flash,
+    get_flashed_messages,
+)
+from flask_login import UserMixin, LoginManager, login_user, login_required, logout_user, current_user
 from forms import SignUpForm, LoginForm
 from config import Config
 from models import db, Post, Like, Comment
 from flask_bcrypt import Bcrypt
-
 
 
 # create an object of the Flask class
@@ -23,78 +30,86 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 # redirect users to login page when trying to access restricted pages
-login_manager.login_view = 'render_login'
+login_manager.login_view = "login"
 
 from models import User
 
-# this function instructs flask_login how to retireve user from db 
+
+# this function instructs flask_login how to retireve user from db
 @login_manager.user_loader
 def load_user(user_id):
-    if user_id == 'None':
+    if user_id == "None":
         return None
     return User.query.get(int(user_id))
+
+# inject variables for all templates
+@app.context_processor
+def inject_variable():
+    return dict(user = current_user)
 
 
 # create an object from the Bcrypt class
 bcrypt = Bcrypt(app)
 
 
-# This decorater activate the associated function when the specified route is accessed.
+# This decorater activates the associated function when the specified route is accessed.
 @app.route("/", methods=["GET", "POST"])
 def signup():
     """Identify request method, "post" updates database with associated data, "get" will render associated form"""
     form = SignUpForm()
     if form.validate_on_submit():
+        # Is it better to have seperate varibles or have them directly in user object?
         username = form.username.data
         email = form.email.data
         password = form.password.data
-        hashed_pw = bcrypt.generate_password_hash(password).decode('utf-8')
+        hashed_pw = bcrypt.generate_password_hash(password).decode("utf-8")
         user = User(username=username, email=email, password=hashed_pw)
         # Should this login user go before db commit or after?
         db.session.add(user)
         db.session.commit()
         login_user(user)
-        return redirect(url_for("render_home"))
+        return redirect(url_for("home"))
     return render_template("index.html", form=form)
 
 
-# This decorater activate the associated function when the specified route is accessed.
+# This decorater activates the associated function when the specified route is accessed.
 @app.route("/login", methods=["GET", "POST"])
-def render_login():
+def login():
+    """Identify request method, 'Post': varifies information against database. 'Get': renders associated template """
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user:
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user)
-                return redirect(url_for('render_profile'))
-            else: 
-                flash("Incorrect password")
+                return redirect(url_for("home"))
+            else:
+                flash("Incorrect username or password.")
         else:
-            flash("Incorrect username.")
+            flash("Username does not exist.")
     return render_template("login.html", form=form)
 
 
 # This decorater activate the associated function when the specified route is accessed.
 @app.route("/home", methods=["GET", "POST"])
 @login_required
-def render_home():
+def home():
     return render_template("home.html")
 
 
 # This decorater activate the associated function when the specified route is accessed.
 @app.route("/profile", methods=["GET", "POST"])
 @login_required
-def render_profile():
+def profile():
     return render_template("profile.html")
 
 
-# This decorator will redirect the user, activating the render_login function
+# This decorator will redirect the user, activating the login function
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("render_login"))
+    return redirect(url_for("login"))
 
 
 # Create all db tables

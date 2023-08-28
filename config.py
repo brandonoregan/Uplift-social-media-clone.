@@ -1,5 +1,6 @@
 import os
 
+
 # ISSUE -- Why bother storing environment variables if they only last a session. I tried to use settings to make them persist but had no luck, surely there is a better way to store these things rather than with env vars
 class Config:
     # SECRET_KEY = os.environ.get("DRESSME_SECRET_KEY")
