@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect, request, flash
+from flask import Flask, render_template, url_for, redirect, request, flash, get_flashed_messages
 from flask_login import UserMixin, LoginManager, login_user, login_required, logout_user
 from forms import SignUpForm, LoginForm
 from config import Config
@@ -68,6 +68,10 @@ def render_login():
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user)
                 return redirect(url_for('render_profile'))
+            else: 
+                flash("Incorrect password")
+        else:
+            flash("Incorrect username.")
     return render_template("login.html", form=form)
 
 

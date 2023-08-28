@@ -19,10 +19,10 @@ class LoginForm(FlaskForm):
 class SignUpForm(LoginForm):
     email = StringField("Email", [validators.InputRequired()])
 
-    # def validate_username(self, username):
-    #     existing_user_username = User.query.filter_by(username=username.data).first()
+    def validate_username(self, username):
+        existing_user_username = User.query.filter_by(username=username.data).first()
 
-    #     if existing_user_username:
-    #         raise ValidationError(
-    #             "That username already exists. Please provide another username."
-    #         )
+        if existing_user_username:
+            raise ValidationError(
+                message="Username already exists. Please choose another username."
+            )
