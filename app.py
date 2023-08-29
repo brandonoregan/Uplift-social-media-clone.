@@ -8,7 +8,7 @@ from flask import (
     get_flashed_messages,
 )
 from flask_login import UserMixin, LoginManager, login_user, login_required, logout_user, current_user
-from forms import SignUpForm, LoginForm, commentForm
+from forms import SignUpForm, LoginForm, commentForm, likeForm
 from config import Config
 from models import db, Post, Like, Comment
 from flask_bcrypt import Bcrypt
@@ -96,12 +96,11 @@ def login():
 @login_required
 def home():
     newComForm = commentForm()
+    newLikeForm = likeForm()
     all_posts = Post.query.all()
     if newComForm.validate_on_submit():
         user_id = current_user.id
         post_id = request.form.get('post_id')
-        print("################################################################")
-        print(post_id)
         content = newComForm.comment.data
         timestamp = datetime.utcnow()
         comment = Comment(user_id=user_id, post_id=post_id, content=content, timestamp=timestamp)
@@ -111,8 +110,24 @@ def home():
         print('ERROR ERROR ERROR ERROR')
         for field, errors in newComForm.errors.items():
             print(f'Field: {field}, Errors: {errors}')
-    return render_template("home.html", newComForm=newComForm, all_posts=all_posts) 
+    
+    if newLikeForm.validate_on_submit():
+        user_id = current_user.id
+        post_id = request.form.get('post_id')
 
+        post = Post.query.filter_by(id=post_id).first()
+        if post:
+            post.likes = post.likes + 1
+            post_likes = post.likes
+            db.session.flush()
+            db.session.refresh(post)
+            db.session.commit()
+
+        like = Like(user_id=user_id, post_id=post_id)
+        db.session.add(like)
+        db.session.commit()
+    return render_template("home.html", newComForm=newComForm, all_posts=all_posts, newLikeForm=newLikeForm, post_likes=post_likes) 
+# "url_for(""static"", filename=""img/fashion-1.jpg"")"
 
 # This decorater activate the associated function when the specified route is accessed.
 @app.route("/profile", methods=["GET", "POST"])

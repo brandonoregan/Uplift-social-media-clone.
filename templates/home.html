@@ -48,7 +48,14 @@
           Some quick example text to build on the card title and make up the
           bulk of the card's content.
         </p>
-        <a href="#" class="btn btn-primary">Like</a>
+        <div>
+          <form action="{{ url_for('home') }}" method="post">
+            {{ newLikeForm.post_id(value=post.id) }} {{
+            newLikeForm.submitLike(class="btn btn-primary") }} {{
+            newComForm.hidden_tag() }}
+          </form>
+          <p><b>{{ post_likes }}</b></p>
+        </div>
         <a href="#" class="btn btn-primary">Comment</a>
         <div>
           <form action="{{ url_for('home') }}" method="post">

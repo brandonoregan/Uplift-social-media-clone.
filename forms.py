@@ -33,3 +33,7 @@ class commentForm(FlaskForm):
     comment = StringField("What do you think?", [validators.InputRequired()])
     post_id = HiddenField(name='post_id')
     submit3 = SubmitField('Send')
+
+class likeForm(FlaskForm):
+    post_id = HiddenField()
+    submitLike = SubmitField('Like')
