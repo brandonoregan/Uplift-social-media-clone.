@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, validators, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, validators, ValidationError, HiddenField
 from models import User
 
 
@@ -27,3 +27,9 @@ class SignUpForm(LoginForm):
             raise ValidationError(
                 message="Username already exists. Please choose another username."
             )
+
+
+class commentForm(FlaskForm):
+    comment = StringField("What do you think?", [validators.InputRequired()])
+    post_id = HiddenField()
+    submit3 = SubmitField('Send')

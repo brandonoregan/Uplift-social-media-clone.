@@ -1,7 +1,7 @@
-<nav class="navbar navbar-expand-sm bg-body-tertiary">
+<nav class="navbar navbar-expand-sm bg-dark">
   <div class="container-fluid">
     <a
-      class="navbar-brand"
+      class="navbar-brand text-light"
       href="{% if user.is_authenticated %}{{ url_for('home') }}{% else %}{{ url_for('signup') }}{% endif %}"
       >DressMe</a
     >
@@ -21,23 +21,27 @@
         {% if user.is_authenticated %}
         <li class="nav-item">
           <a
-            class="nav-link active"
+            class="nav-link active text-light"
             aria-current="page"
             href="{{ url_for('home') }}"
             >Home</a
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
+          <a class="nav-link text-light" href="{{ url_for('profile') }}"
+            >Profile</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('logout') }}">Log out</a>
+          <a class="nav-link text-light" href="{{ url_for('logout') }}"
+            >Log out</a
+          >
         </li>
         {% else %}
-        <li class="nav-item">
+        <li class="nav-item text-light">
           <a class="nav-link" href="{{ url_for('login') }}">Log in</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item text-light">
           <a class="nav-link" href="{{ url_for('signup') }}">Sign up</a>
         </li>
         {% endif %}

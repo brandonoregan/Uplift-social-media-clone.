@@ -1,3 +1,96 @@
 {% extends 'base.html' %} {% block title %}{% endblock %} {% block content %}
-<h1>Home page</h1>
+<div class="container d-flex justify-content-center">
+  <!-- left column -->
+  <div class="col">
+    <div class="container">
+      <div class="row">
+        <div class="card">
+          <img src="..." class="card-img-top" alt="..." />
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">
+              Some quick example text to build on the card title and make up the
+              bulk of the card's content.
+            </p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">An item</li>
+            <li class="list-group-item">A second item</li>
+            <li class="list-group-item">A third item</li>
+          </ul>
+          <div class="card-body">
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- middle column -->
+  <div class="col col-8 ms-3 me-3">
+    <div class="row titleContainer">
+      <h1>Take a look at some of today's outfits</h1>
+      <a href="#" class="btn btn-primary">Upload Image</a>
+    </div>
+    <!-- New Post -->
+    {% for post in all_posts %}
+    <div class="card">
+      <div class="">
+        <img
+          src="{{ url_for('static', filename='img/fashion-1.jpg') }}"
+          class="card-img-top newsFeedImg"
+          alt="..."
+        />
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">What shoe's should I wear?</h5>
+        <p class="card-text">
+          Some quick example text to build on the card title and make up the
+          bulk of the card's content.
+        </p>
+        <a href="#" class="btn btn-primary">Like</a>
+        <a href="#" class="btn btn-primary">Comment</a>
+        <div>
+          <form action="{{ url_for('home') }}" method="post">
+            {{ newComForm.hidden_tag() }} {{ newComForm.post_id(value=post.id)
+            }}
+            <div>{{ newComForm.comment(class="commentBox") }}</div>
+            <div>{{ newComForm.submit3(class="btn btn-primary") }}</div>
+          </form>
+        </div>
+        <div class="commentThread">
+          <p>Definitely white shoes!</p>
+          <a href="#" class="btn btn-primary">Edit Comment</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <!-- right column -->
+  <div class="col">
+    <div class="container">
+      <div class="row">
+        <div class="card">
+          <img src="..." class="card-img-top" alt="..." />
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">
+              Some quick example text to build on the card title and make up the
+              bulk of the card's content.
+            </p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">An item</li>
+            <li class="list-group-item">A second item</li>
+            <li class="list-group-item">A third item</li>
+          </ul>
+          <div class="card-body">
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

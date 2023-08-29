@@ -8,10 +8,11 @@ from flask import (
     get_flashed_messages,
 )
 from flask_login import UserMixin, LoginManager, login_user, login_required, logout_user, current_user
-from forms import SignUpForm, LoginForm
+from forms import SignUpForm, LoginForm, commentForm
 from config import Config
 from models import db, Post, Like, Comment
 from flask_bcrypt import Bcrypt
+from datetime import datetime
 
 
 # create an object of the Flask class
@@ -94,7 +95,21 @@ def login():
 @app.route("/home", methods=["GET", "POST"])
 @login_required
 def home():
-    return render_template("home.html")
+    newComForm = commentForm()
+    all_posts = Post.query.all()
+    if newComForm.validate_on_submit():
+        user_id = current_user.id
+        post_id = newComForm.post_id.data
+        content = newComForm.comment.data
+        timestamp = datetime.utcnow()
+        comment = Comment(user_id=user_id, post_id=post_id, content=content, timestamp=timestamp)
+        db.session.add(comment)
+        db.session.commit()
+    else: #remove later, keep around for now for debugging
+        print('ERROR ERROR ERROR ERROR')
+        for field, errors in newComForm.errors.items():
+            print(f'Field: {field}, Errors: {errors}')
+    return render_template("home.html", newComForm=newComForm, all_posts=all_posts) 
 
 
 # This decorater activate the associated function when the specified route is accessed.
