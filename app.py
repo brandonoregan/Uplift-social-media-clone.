@@ -99,7 +99,9 @@ def home():
     all_posts = Post.query.all()
     if newComForm.validate_on_submit():
         user_id = current_user.id
-        post_id = newComForm.post_id.data
+        post_id = request.form.get('post_id')
+        print("################################################################")
+        print(post_id)
         content = newComForm.comment.data
         timestamp = datetime.utcnow()
         comment = Comment(user_id=user_id, post_id=post_id, content=content, timestamp=timestamp)

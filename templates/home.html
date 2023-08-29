@@ -52,10 +52,10 @@
         <a href="#" class="btn btn-primary">Comment</a>
         <div>
           <form action="{{ url_for('home') }}" method="post">
-            {{ newComForm.hidden_tag() }} {{ newComForm.post_id(value=post.id)
-            }}
+            {{ newComForm.post_id(value=post.id) }}
             <div>{{ newComForm.comment(class="commentBox") }}</div>
             <div>{{ newComForm.submit3(class="btn btn-primary") }}</div>
+            {{ newComForm.hidden_tag() }}
           </form>
         </div>
         <div class="commentThread">

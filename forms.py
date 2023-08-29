@@ -31,5 +31,5 @@ class SignUpForm(LoginForm):
 
 class commentForm(FlaskForm):
     comment = StringField("What do you think?", [validators.InputRequired()])
-    post_id = HiddenField()
+    post_id = HiddenField(name='post_id')
     submit3 = SubmitField('Send')
