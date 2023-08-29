@@ -1,5 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, validators, ValidationError, HiddenField
+from wtforms import (
+    StringField,
+    PasswordField,
+    SubmitField,
+    validators,
+    ValidationError,
+    HiddenField,
+)
 from models import User
 
 
@@ -31,9 +38,18 @@ class SignUpForm(LoginForm):
 
 class commentForm(FlaskForm):
     comment = StringField("What do you think?", [validators.InputRequired()])
-    post_id = HiddenField(name='post_id')
-    submit3 = SubmitField('Send')
+    post_id = HiddenField(name="post_id")
+    submit3 = SubmitField("Send")
+
+
+class editCommentForm(FlaskForm):
+    submitEdit = SubmitField('Update')
+    post_id = HiddenField()
+    edit = StringField()
+
+
 
 class likeForm(FlaskForm):
     post_id = HiddenField()
-    submitLike = SubmitField('Like')
+    submitLike = SubmitField("Like")
+

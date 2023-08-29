@@ -54,7 +54,6 @@
             newLikeForm.submitLike(class="btn btn-primary") }} {{
             newComForm.hidden_tag() }}
           </form>
-          <p><b>{{ post_likes }}</b></p>
         </div>
         <a href="#" class="btn btn-primary">Comment</a>
         <div>
@@ -65,10 +64,21 @@
             {{ newComForm.hidden_tag() }}
           </form>
         </div>
+        {% for db_comment in all_comments %}
         <div class="commentThread">
-          <p>Definitely white shoes!</p>
-          <a href="#" class="btn btn-primary">Edit Comment</a>
+          <form action="{{ url_for('home') }}" method="post">
+            <div>
+              <p>{{ db_comment.content }}</p>
+              {{ editComment.post_id(value=db_comment.id) }} {% if
+              current_user.id == db_comment.user_id %} {{
+              editComment.submitEdit(class="btn btn-primary") }}
+              <div class="btn btn-primary exposeEdit">Edit comment?</div>
+            </div>
+            {% endif %} {{ newComForm.hidden_tag() }}
+            <p>{{ editComment.edit(class="editCommentForm hidden")}}</p>
+          </form>
         </div>
+        {% endfor %}
       </div>
     </div>
     {% endfor %}

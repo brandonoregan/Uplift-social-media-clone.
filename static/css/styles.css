@@ -27,3 +27,7 @@ body {
 .titleContainer {
   background-color: white;
 }
+
+.hidden {
+  display: none;
+}

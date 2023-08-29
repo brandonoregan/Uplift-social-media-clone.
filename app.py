@@ -7,8 +7,15 @@ from flask import (
     flash,
     get_flashed_messages,
 )
-from flask_login import UserMixin, LoginManager, login_user, login_required, logout_user, current_user
-from forms import SignUpForm, LoginForm, commentForm, likeForm
+from flask_login import (
+    LoginManager,
+    login_user,
+    login_required,
+    logout_user,
+    current_user,
+    UserMixin,
+)
+from forms import SignUpForm, LoginForm, commentForm, likeForm, editCommentForm
 from config import Config
 from models import db, Post, Like, Comment
 from flask_bcrypt import Bcrypt
@@ -43,10 +50,11 @@ def load_user(user_id):
         return None
     return User.query.get(int(user_id))
 
+
 # inject variables for all templates
 @app.context_processor
 def inject_variable():
-    return dict(user = current_user)
+    return dict(user=current_user)
 
 
 # create an object from the Bcrypt class
@@ -76,7 +84,7 @@ def signup():
 # This decorater activates the associated function when the specified route is accessed.
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    """Identify request method, 'Post': varifies information against database. 'Get': renders associated template """
+    """Identify request method, 'Post': varifies information against database. 'Get': renders associated template"""
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -97,28 +105,43 @@ def login():
 def home():
     newComForm = commentForm()
     newLikeForm = likeForm()
+    editComment = editCommentForm()
     all_posts = Post.query.all()
+    all_comments = Comment.query.all()
+
     if newComForm.validate_on_submit():
         user_id = current_user.id
-        post_id = request.form.get('post_id')
+        post_id = request.form.get("post_id")
         content = newComForm.comment.data
         timestamp = datetime.utcnow()
-        comment = Comment(user_id=user_id, post_id=post_id, content=content, timestamp=timestamp)
+        comment = Comment(
+            user_id=user_id, post_id=post_id, content=content, timestamp=timestamp
+        )
         db.session.add(comment)
         db.session.commit()
-    else: #remove later, keep around for now for debugging
-        print('ERROR ERROR ERROR ERROR')
+    else:  # remove later, keep around for now for debugging
+        print("ERROR ERROR ERROR ERROR")
         for field, errors in newComForm.errors.items():
-            print(f'Field: {field}, Errors: {errors}')
-    
+            print(f"Field: {field}, Errors: {errors}")
+
+    if editComment.validate_on_submit():
+        post_id = request.form.get("post_id")
+        edit = editComment.edit.data
+        comment = Comment.query.filter_by(id=post_id).first()
+
+
+        if comment:
+            comment.content = edit
+            db.session.commit()
+
+
     if newLikeForm.validate_on_submit():
         user_id = current_user.id
-        post_id = request.form.get('post_id')
+        post_id = request.form.get("post_id")
 
         post = Post.query.filter_by(id=post_id).first()
         if post:
             post.likes = post.likes + 1
-            post_likes = post.likes
             db.session.flush()
             db.session.refresh(post)
             db.session.commit()
@@ -126,8 +149,19 @@ def home():
         like = Like(user_id=user_id, post_id=post_id)
         db.session.add(like)
         db.session.commit()
-    return render_template("home.html", newComForm=newComForm, all_posts=all_posts, newLikeForm=newLikeForm, post_likes=post_likes) 
+
+    return render_template(
+        "home.html",
+        newComForm=newComForm,
+        all_posts=all_posts,
+        newLikeForm=newLikeForm,
+        all_comments=all_comments,
+        editComment=editComment
+    )
+
+
 # "url_for(""static"", filename=""img/fashion-1.jpg"")"
+
 
 # This decorater activate the associated function when the specified route is accessed.
 @app.route("/profile", methods=["GET", "POST"])
