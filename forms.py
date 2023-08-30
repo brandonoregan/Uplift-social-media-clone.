@@ -43,9 +43,9 @@ class commentForm(FlaskForm):
 
 
 class editCommentForm(FlaskForm):
-    submitEdit = SubmitField('Update')
+    submitEdit = SubmitField('Edit Comment')
     post_id = HiddenField()
-    edit = StringField()
+    edit = StringField([validators.InputRequired()])
 
 
 

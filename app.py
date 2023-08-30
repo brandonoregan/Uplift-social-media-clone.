@@ -20,6 +20,7 @@ from config import Config
 from models import db, Post, Like, Comment
 from flask_bcrypt import Bcrypt
 from datetime import datetime
+from sqlalchemy import desc
 
 
 # create an object of the Flask class
@@ -48,7 +49,9 @@ from models import User
 def load_user(user_id):
     if user_id == "None":
         return None
-    return User.query.get(int(user_id))
+    user = db.session.get(User, int(user_id))
+    # return User.query.get(int(user_id))
+    return user
 
 
 # inject variables for all templates
@@ -108,8 +111,17 @@ def home():
     editComment = editCommentForm()
     all_posts = Post.query.all()
     all_comments = Comment.query.all()
+    recent_comments = Comment.query.order_by(desc(Comment.timestamp)).limit(3).all()
+    recent_comments_reversed = list(reversed(recent_comments))
+    comment_user_mapping = {}
 
-    if newComForm.validate_on_submit():
+    for comment in recent_comments:
+        user = User.query.get(comment.user_id)
+        comment_user_mapping[comment] = user
+
+
+
+    if request.method == "POST" and newComForm.validate_on_submit():
         user_id = current_user.id
         post_id = request.form.get("post_id")
         content = newComForm.comment.data
@@ -119,6 +131,7 @@ def home():
         )
         db.session.add(comment)
         db.session.commit()
+        newComForm.comment.data = ""
     else:  # remove later, keep around for now for debugging
         print("ERROR ERROR ERROR ERROR")
         for field, errors in newComForm.errors.items():
@@ -128,8 +141,6 @@ def home():
         post_id = request.form.get("post_id")
         edit = editComment.edit.data
         comment = Comment.query.filter_by(id=post_id).first()
-
-
         if comment:
             comment.content = edit
             db.session.commit()
@@ -156,7 +167,9 @@ def home():
         all_posts=all_posts,
         newLikeForm=newLikeForm,
         all_comments=all_comments,
-        editComment=editComment
+        editComment=editComment,
+        recent_comments_reversed=recent_comments_reversed,
+        comment_user_mapping=comment_user_mapping
     )
 
 

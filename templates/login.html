@@ -1,20 +1,42 @@
 {% extends 'base.html' %} {% block content %} {% include 'flash_errors.html' %}
 <h1>Log in</h1>
-<form action="" method="post">
-  <!-- REFACTOR this code can be looped through to create each field and placed into a seperate html file and broguth back with the inlcudes jinja template -->
-  {{ form.csrf_token }}
-  <p>
-    {{ form.username.label }} <br />
-    {{ form.username() }}
-  </p>
-  <p>
-    {{ form.password.label }} <br />
-    {{ form.password() }}
-  </p>
-  <p>{{ form.submit() }}</p>
-  {% if form.errors %} {% for field, errors in form.errors.items() %} {% for
-  error in errors %}
-  <div class="alert alert-danger">{{ field }}: {{ error }}</div>
-  {% endfor %} {% endfor %} {% endif %}
-</form>
+<!-- $$$$$$$$$$$$$$$$$$$$$$ -->
+<!-- $$$$$$$$$$$$$$$$$$$$$$ -->
+<div class="col-12 col-sm-8 col-md-6 m-auto">
+  <div class="card border-0 shadow mb-5">
+    <div class="card-body">
+      <div class="d-flex justify-content-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="50"
+          height="50"
+          fill="currentColor"
+          class="bi bi-person-circle my-3 mx-auto"
+          viewBox="0 0 16 16"
+        >
+          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+          <path
+            fill-rule="evenodd"
+            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
+          />
+        </svg>
+      </div>
+      <!-- This form activated by the login button will activate the login function in the app.py file -->
+      <form action="{{ url_for('login') }}" method="post" class="text-center">
+        <!-- REFACTOR this code can be looped through to create each field and placed into a seperate html file and broguth back with the inlcudes jinja template -->
+        {{ form.csrf_token }}
+        <p>{{ form.username.label }} {{ form.username() }}</p>
+        <p>{{ form.password.label }} {{ form.password() }}</p>
+        <p>{{ form.submit() }}</p>
+        {% if form.errors %} {% for field, errors in form.errors.items() %} {%
+        for error in errors %}
+        <div class="alert alert-danger">{{ field }}: {{ error }}</div>
+        {% endfor %} {% endfor %} {% endif %}
+      </form>
+    </div>
+  </div>
+</div>
+<!-- $$$$$$$$$$$$$$$$$$$$$$ -->
+<!-- $$$$$$$$$$$$$$$$$$$$$$ -->
+
 {% endblock %}

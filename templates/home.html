@@ -1,113 +1,86 @@
 {% extends 'base.html' %} {% block title %}{% endblock %} {% block content %}
 <div class="container d-flex justify-content-center">
-  <!-- left column -->
-  <div class="col">
-    <div class="container">
-      <div class="row">
-        <div class="card">
-          <img src="..." class="card-img-top" alt="..." />
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">An item</li>
-            <li class="list-group-item">A second item</li>
-            <li class="list-group-item">A third item</li>
-          </ul>
-          <div class="card-body">
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-          </div>
-        </div>
+
+    <!-- middle column -->
+    <div class="col col-6 ms-3 me-3 mw-50">
+
+      <div class="row titleContainer">
+        <h1>Take a look at some of today's outfits</h1>
+        <a href="#" class="btn btn-primary">Create</a>
       </div>
-    </div>
-  </div>
-  <!-- middle column -->
-  <div class="col col-8 ms-3 me-3">
-    <div class="row titleContainer">
-      <h1>Take a look at some of today's outfits</h1>
-      <a href="#" class="btn btn-primary">Upload Image</a>
-    </div>
-    <!-- New Post -->
-    {% for post in all_posts %}
-    <div class="card">
-      <div class="">
-        <img
-          src="{{ url_for('static', filename='img/fashion-1.jpg') }}"
-          class="card-img-top newsFeedImg"
-          alt="..."
-        />
-      </div>
-      <div class="card-body">
-        <h5 class="card-title">What shoe's should I wear?</h5>
-        <p class="card-text">
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </p>
-        <div>
-          <form action="{{ url_for('home') }}" method="post">
-            {{ newLikeForm.post_id(value=post.id) }} {{
-            newLikeForm.submitLike(class="btn btn-primary") }} {{
-            newComForm.hidden_tag() }}
-          </form>
+
+      <!-- New Post -->
+      {% for post in all_posts %}
+      <div class="card mt-4">
+
+        <div class="d-flex align-items-center postHeader">
+          <svg  xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-person-circle ms-3 me-3 dpIcon" viewBox="0 0 16 16">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+          </svg>
+          <h5 class="card-title mb-0">What shoe's should I wear?</h5>
         </div>
-        <a href="#" class="btn btn-primary">Comment</a>
-        <div>
-          <form action="{{ url_for('home') }}" method="post">
-            {{ newComForm.post_id(value=post.id) }}
-            <div>{{ newComForm.comment(class="commentBox") }}</div>
-            <div>{{ newComForm.submit3(class="btn btn-primary") }}</div>
-            {{ newComForm.hidden_tag() }}
-          </form>
+
+        <div class="">
+          <img
+            src="{{ url_for('static', filename='img/fashion-1.jpg') }}"
+            class="card-img-top newsFeedImg"
+            alt="..."
+          />
         </div>
-        {% for db_comment in all_comments %}
-        <div class="commentThread">
-          <form action="{{ url_for('home') }}" method="post">
-            <div>
-              <p>{{ db_comment.content }}</p>
-              {{ editComment.post_id(value=db_comment.id) }} {% if
-              current_user.id == db_comment.user_id %} {{
-              editComment.submitEdit(class="btn btn-primary") }}
-              <div class="btn btn-primary exposeEdit">Edit comment?</div>
+        <div class="card-body">
+  
+          <div class="d-flex justify-content-end">
+            <form action="{{ url_for('home') }}" method="post" >
+              <div>
+                {{ newLikeForm.post_id(value=post.id) }}
+              </div>
+              <div>
+                {{
+                newLikeForm.submitLike(class="btn btn-outline-secondary") }}
+              </div> {{
+              newLikeForm.hidden_tag() }}
+            </form>
+            <div id="commentDisplay" class="btn btn-outline-secondary ms-3">
+              Comment
             </div>
-            {% endif %} {{ newComForm.hidden_tag() }}
-            <p>{{ editComment.edit(class="editCommentForm hidden")}}</p>
-          </form>
-        </div>
-        {% endfor %}
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-  <!-- right column -->
-  <div class="col">
-    <div class="container">
-      <div class="row">
-        <div class="card">
-          <img src="..." class="card-img-top" alt="..." />
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
           </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">An item</li>
-            <li class="list-group-item">A second item</li>
-            <li class="list-group-item">A third item</li>
-          </ul>
-          <div class="card-body">
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
+  
+          <div id="newComForm" class="newComForm hidden">
+              <form action="{{ url_for('home') }}" method="post" >
+                {{ newComForm.post_id(value=post.id) }}
+                <div class="d-flex justify-content-end mt-3 ">
+                  <div class="flex-grow-1">{{ newComForm.comment(class='form-control') }}</div>
+                  <div >{{ newComForm.submit3(class="btn btn-outline-secondary") }}</div>
+                </div>
+                {{ newComForm.hidden_tag() }}
+              </form>
           </div>
+          <div class="commentThread">
+            {% for db_comment in recent_comments_reversed %}
+                <div class="comments form-control mt-3 p-2">
+                  <div class="d-flex justify-content-between">
+                    <p id="username" class="m-1">{{ comment_user_mapping[db_comment].username }}:</p>
+                    {% if current_user.username == comment_user_mapping[db_comment].username %}
+                    <div class="btn btn-outline-secondary btn-sm">Delete</div>
+                    <!-- Add function to delete comments -->
+                    {% endif %}
+                  </div>
+                  <p class="m-1">{{ db_comment.content }}</p>
+                </div>
+            {% endfor %}
+            <div class="d-flex justify-content-end">
+              <p id="allComments" class="mt-3  text-secondary">View all comments</p>
+              <!-- Add way to view all comments -->
+            </div>
+            </div>
+
+          
         </div>
       </div>
+      {% endfor %}
     </div>
+    <!-- right column -->
   </div>
+  {% endblock %}
 </div>
-{% endblock %}
