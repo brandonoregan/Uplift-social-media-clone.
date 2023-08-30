@@ -21,6 +21,9 @@ from models import db, Post, Like, Comment
 from flask_bcrypt import Bcrypt
 from datetime import datetime
 from sqlalchemy import desc
+import os
+from werkzeug.utils import secure_filename
+from functions import updateLikes
 
 
 # create an object of the Flask class
@@ -64,30 +67,47 @@ def inject_variable():
 bcrypt = Bcrypt(app)
 
 
-# This decorater activates the associated function when the specified route is accessed.
+@app.route("/")
+def render_signup():
+    """Render specified page for GET request"""
+    form = SignUpForm()
+    return render_template('index.html', form=form)
+
+
 @app.route("/", methods=["GET", "POST"])
 def signup():
-    """Identify request method, "post" updates database with associated data, "get" will render associated form"""
+    """Handle form submission for POST request"""
     form = SignUpForm()
     if form.validate_on_submit():
         # Is it better to have seperate varibles or have them directly in user object?
+        # Process form data and update databse
         username = form.username.data
         email = form.email.data
         password = form.password.data
         hashed_pw = bcrypt.generate_password_hash(password).decode("utf-8")
         user = User(username=username, email=email, password=hashed_pw)
-        # Should this login user go before db commit or after?
         db.session.add(user)
         db.session.commit()
+
+        # Log in the user and redirect to the specified page
         login_user(user)
         return redirect(url_for("home"))
+    
+    # If form validation fails, re-
     return render_template("index.html", form=form)
 
 
+@app.route("/login")
+def render_login():
+    """Render specified page for GET request"""
+    form = LoginForm()
+    return render_template('login.html', form=form)
+
+
 # This decorater activates the associated function when the specified route is accessed.
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/login", methods=["POST"])
 def login():
-    """Identify request method, 'Post': varifies information against database. 'Get': renders associated template"""
+    """Handle form submission for POST request"""
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -102,10 +122,9 @@ def login():
     return render_template("login.html", form=form)
 
 
-# This decorater activate the associated function when the specified route is accessed.
-@app.route("/home", methods=["GET", "POST"])
-@login_required
-def home():
+@app.route("/home")
+def render_home():
+    """Render specified page for GET request"""
     newComForm = commentForm()
     newLikeForm = likeForm()
     editComment = editCommentForm()
@@ -114,11 +133,34 @@ def home():
     recent_comments = Comment.query.order_by(desc(Comment.timestamp)).limit(3).all()
     recent_comments_reversed = list(reversed(recent_comments))
     comment_user_mapping = {}
-
+    
+    # Sets a key:value pair holding, connecting comment to user
     for comment in recent_comments:
         user = User.query.get(comment.user_id)
         comment_user_mapping[comment] = user
 
+    return render_template(
+        "home.html",
+        newComForm=newComForm,
+        all_posts=all_posts,
+        newLikeForm=newLikeForm,
+        all_comments=all_comments,
+        editComment=editComment,
+        recent_comments_reversed=recent_comments_reversed,
+        comment_user_mapping=comment_user_mapping
+    )
+
+
+
+
+
+# This decorater activate the associated function when the specified route is accessed.
+@app.route("/home", methods=["GET", "POST"])
+@login_required
+def home():
+    newComForm = commentForm()
+    newLikeForm = likeForm()
+    editComment = editCommentForm()
 
 
     if request.method == "POST" and newComForm.validate_on_submit():
@@ -145,32 +187,11 @@ def home():
             comment.content = edit
             db.session.commit()
 
-
+# Example of how to refactor code, function is in functions.py
     if newLikeForm.validate_on_submit():
-        user_id = current_user.id
-        post_id = request.form.get("post_id")
+        updateLikes(current_user, request, Post, Like, db)
 
-        post = Post.query.filter_by(id=post_id).first()
-        if post:
-            post.likes = post.likes + 1
-            db.session.flush()
-            db.session.refresh(post)
-            db.session.commit()
-
-        like = Like(user_id=user_id, post_id=post_id)
-        db.session.add(like)
-        db.session.commit()
-
-    return render_template(
-        "home.html",
-        newComForm=newComForm,
-        all_posts=all_posts,
-        newLikeForm=newLikeForm,
-        all_comments=all_comments,
-        editComment=editComment,
-        recent_comments_reversed=recent_comments_reversed,
-        comment_user_mapping=comment_user_mapping
-    )
+    return redirect(url_for('render_home'))
 
 
 # "url_for(""static"", filename=""img/fashion-1.jpg"")"

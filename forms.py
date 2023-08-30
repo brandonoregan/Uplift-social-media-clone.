@@ -20,12 +20,21 @@ class LoginForm(FlaskForm):
         "Password",
         [validators.InputRequired()],
     )
-    submit = SubmitField("Sign up")
+    submit = SubmitField("Login")
 
 
 # Class for the sign up form which inherits the login class
-class SignUpForm(LoginForm):
+class SignUpForm(FlaskForm):
     email = StringField("Email", [validators.InputRequired()])
+    username = StringField(
+        "Username",
+        [validators.Length(min=6), validators.InputRequired()],
+    )
+    password = PasswordField(
+        "Password",
+        [validators.InputRequired()],
+    )
+    submit = SubmitField('Sign up')
 
     def validate_username(self, username):
         existing_user_username = User.query.filter_by(username=username.data).first()

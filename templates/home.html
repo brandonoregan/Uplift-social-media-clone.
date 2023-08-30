@@ -60,7 +60,7 @@
             {% for db_comment in recent_comments_reversed %}
                 <div class="comments form-control mt-3 p-2">
                   <div class="d-flex justify-content-between">
-                    <p id="username" class="m-1">{{ comment_user_mapping[db_comment].username }}:</p>
+                    <p id="usernameCom" class="m-1">{{ comment_user_mapping[db_comment].username }}:</p>
                     {% if current_user.username == comment_user_mapping[db_comment].username %}
                     <div class="btn btn-outline-secondary btn-sm">Delete</div>
                     <!-- Add function to delete comments -->
