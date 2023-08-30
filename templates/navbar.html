@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <a
       class="navbar-brand text-light"
-      href="{% if user.is_authenticated %}{{ url_for('home') }}{% else %}{{ url_for('render_signup') }}{% endif %}"
+      href="{% if user.is_authenticated %}{{ url_for('render_home') }}{% else %}{{ url_for('render_signup') }}{% endif %}"
       >DressMe</a
     >
     <button
@@ -28,7 +28,7 @@
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link text-light" href="{{ url_for('profile') }}"
+          <a class="nav-link text-light" href="{{ url_for('render_profile') }}"
             >Profile</a
           >
         </li>
@@ -39,7 +39,7 @@
         </li>
         {% else %}
         <li class="nav-item text-light">
-          <a class="nav-link" href="{{ url_for('login') }}">Log in</a>
+          <a class="nav-link" href="{{ url_for('render_login') }}">Log in</a>
         </li>
         <li class="nav-item text-light">
           <a class="nav-link" href="{{ url_for('render_signup') }}">Sign up</a>

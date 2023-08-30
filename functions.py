@@ -12,3 +12,13 @@ def updateLikes(current_user, request, Post, Like, db):
     like = Like(user_id=user_id, post_id=post_id)
     db.session.add(like)
     db.session.commit()
+
+
+# def editComment()
+#     if editComment.validate_on_submit():
+#         post_id = request.form.get("post_id")
+#         edit = editComment.edit.data
+#         comment = Comment.query.filter_by(id=post_id).first()
+#         if comment:
+#             comment.content = edit
+#             db.session.commit()

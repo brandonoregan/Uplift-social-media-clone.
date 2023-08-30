@@ -74,7 +74,7 @@ def render_signup():
     return render_template('index.html', form=form)
 
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["POST"])
 def signup():
     """Handle form submission for POST request"""
     form = SignUpForm()
@@ -127,7 +127,6 @@ def render_home():
     """Render specified page for GET request"""
     newComForm = commentForm()
     newLikeForm = likeForm()
-    editComment = editCommentForm()
     all_posts = Post.query.all()
     all_comments = Comment.query.all()
     recent_comments = Comment.query.order_by(desc(Comment.timestamp)).limit(3).all()
@@ -145,7 +144,6 @@ def render_home():
         all_posts=all_posts,
         newLikeForm=newLikeForm,
         all_comments=all_comments,
-        editComment=editComment,
         recent_comments_reversed=recent_comments_reversed,
         comment_user_mapping=comment_user_mapping
     )
@@ -155,13 +153,11 @@ def render_home():
 
 
 # This decorater activate the associated function when the specified route is accessed.
-@app.route("/home", methods=["GET", "POST"])
+@app.route("/home/comment", methods=["POST"])
 @login_required
-def home():
-    newComForm = commentForm()
-    newLikeForm = likeForm()
-    editComment = editCommentForm()
+def post_comment():
 
+    newComForm = commentForm()
 
     if request.method == "POST" and newComForm.validate_on_submit():
         user_id = current_user.id
@@ -179,28 +175,26 @@ def home():
         for field, errors in newComForm.errors.items():
             print(f"Field: {field}, Errors: {errors}")
 
-    if editComment.validate_on_submit():
-        post_id = request.form.get("post_id")
-        edit = editComment.edit.data
-        comment = Comment.query.filter_by(id=post_id).first()
-        if comment:
-            comment.content = edit
-            db.session.commit()
+    return redirect(url_for('render_home'))
 
-# Example of how to refactor code, function is in functions.py
+# This decorater activate the associated function when the specified route is accessed.
+@app.route("/home/like", methods=["POST"])
+@login_required
+def post_like():
+    
+    newLikeForm = likeForm()
+
+    # Example of how to refactor code, function is in functions.py
     if newLikeForm.validate_on_submit():
         updateLikes(current_user, request, Post, Like, db)
 
     return redirect(url_for('render_home'))
 
 
-# "url_for(""static"", filename=""img/fashion-1.jpg"")"
-
-
 # This decorater activate the associated function when the specified route is accessed.
-@app.route("/profile", methods=["GET", "POST"])
+@app.route("/profile")
 @login_required
-def profile():
+def render_profile():
     return render_template("profile.html")
 
 
