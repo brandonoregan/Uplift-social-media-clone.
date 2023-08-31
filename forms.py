@@ -6,6 +6,8 @@ from wtforms import (
     validators,
     ValidationError,
     HiddenField,
+    FileField,
+    
 )
 from models import User
 
@@ -51,14 +53,21 @@ class commentForm(FlaskForm):
     submit3 = SubmitField("Send")
 
 
-class editCommentForm(FlaskForm):
-    submitEdit = SubmitField('Edit Comment')
-    post_id = HiddenField()
-    edit = StringField([validators.InputRequired()])
-
-
-
 class likeForm(FlaskForm):
     post_id = HiddenField()
     submitLike = SubmitField("Like")
+
+
+class imageForm(FlaskForm):
+    upload = FileField("Upload Picture")
+    submit = SubmitField("Upload file")
+
+
+
+# class editCommentForm(FlaskForm):
+#     submitEdit = SubmitField('Edit Comment')
+#     post_id = HiddenField()
+#     edit = StringField([validators.InputRequired()])
+
+
 

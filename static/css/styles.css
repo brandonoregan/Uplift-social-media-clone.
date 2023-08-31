@@ -60,3 +60,10 @@ body {
   cursor: pointer;
   text-decoration: underline;
 }
+
+/* Styles post cards on user profiles */
+#profileCards {
+  width: 18rem;
+  height: 18rem;
+  max-height: 18rem;
+}

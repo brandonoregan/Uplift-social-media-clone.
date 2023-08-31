@@ -28,7 +28,9 @@
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link text-light" href="{{ url_for('render_profile') }}"
+          <a
+            class="nav-link text-light"
+            href="{{ url_for('render_profile', username=current_user.username) }}"
             >Profile</a
           >
         </li>

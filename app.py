@@ -15,12 +15,12 @@ from flask_login import (
     current_user,
     UserMixin,
 )
-from forms import SignUpForm, LoginForm, commentForm, likeForm, editCommentForm
+from forms import SignUpForm, LoginForm, commentForm, likeForm, imageForm
 from config import Config
-from models import db, Post, Like, Comment
+from models import db, Post, Like, Comment, Image
 from flask_bcrypt import Bcrypt
 from datetime import datetime
-from sqlalchemy import desc
+from sqlalchemy import desc, BINARY
 import os
 from werkzeug.utils import secure_filename
 from functions import updateLikes
@@ -71,7 +71,7 @@ bcrypt = Bcrypt(app)
 def render_signup():
     """Render specified page for GET request"""
     form = SignUpForm()
-    return render_template('index.html', form=form)
+    return render_template("index.html", form=form)
 
 
 @app.route("/", methods=["POST"])
@@ -92,7 +92,7 @@ def signup():
         # Log in the user and redirect to the specified page
         login_user(user)
         return redirect(url_for("home"))
-    
+
     # If form validation fails, re-
     return render_template("index.html", form=form)
 
@@ -101,7 +101,7 @@ def signup():
 def render_login():
     """Render specified page for GET request"""
     form = LoginForm()
-    return render_template('login.html', form=form)
+    return render_template("login.html", form=form)
 
 
 # This decorater activates the associated function when the specified route is accessed.
@@ -132,7 +132,7 @@ def render_home():
     recent_comments = Comment.query.order_by(desc(Comment.timestamp)).limit(3).all()
     recent_comments_reversed = list(reversed(recent_comments))
     comment_user_mapping = {}
-    
+
     # Sets a key:value pair holding, connecting comment to user
     for comment in recent_comments:
         user = User.query.get(comment.user_id)
@@ -145,18 +145,14 @@ def render_home():
         newLikeForm=newLikeForm,
         all_comments=all_comments,
         recent_comments_reversed=recent_comments_reversed,
-        comment_user_mapping=comment_user_mapping
+        comment_user_mapping=comment_user_mapping,
     )
-
-
-
 
 
 # This decorater activate the associated function when the specified route is accessed.
 @app.route("/home/comment", methods=["POST"])
 @login_required
 def post_comment():
-
     newComForm = commentForm()
 
     if request.method == "POST" and newComForm.validate_on_submit():
@@ -175,27 +171,70 @@ def post_comment():
         for field, errors in newComForm.errors.items():
             print(f"Field: {field}, Errors: {errors}")
 
-    return redirect(url_for('render_home'))
+    return redirect(url_for("render_home"))
+
 
 # This decorater activate the associated function when the specified route is accessed.
 @app.route("/home/like", methods=["POST"])
 @login_required
 def post_like():
-    
     newLikeForm = likeForm()
 
     # Example of how to refactor code, function is in functions.py
     if newLikeForm.validate_on_submit():
         updateLikes(current_user, request, Post, Like, db)
 
-    return redirect(url_for('render_home'))
+    return redirect(url_for("render_home"))
 
 
 # This decorater activate the associated function when the specified route is accessed.
-@app.route("/profile")
+@app.route("/profile/")
 @login_required
 def render_profile():
+    dp_form = imageForm()
+    username = current_user.username
+    return render_template("profile.html", dp_form=dp_form, username=username)
+
+
+@app.route("/profile/post")
+@login_required
+def post_post():
     return render_template("profile.html")
+
+
+@app.route("/profile/picture", methods=["POST"])
+@login_required
+def post_dp():
+    # Get uploaded image data
+    if request.method == "POST":
+        user_id = current_user.id
+        picture = request.files["upload"]
+        img_data = picture.read()
+        filename = secure_filename(picture.filename)
+        mimetype = picture.mimetype
+
+        # Check if picture exists
+        if not picture:
+            flash("No picture uploaded")
+
+        # Create Image instance and add to db
+        img = Image(img=img_data, mimetype=mimetype, name=filename, user_id=user_id)
+        db.session.add(img)
+        db.session.commit()
+
+        # update associated tables
+        image_id = img.id
+
+        user_id = current_user.id
+        user = db.session.get(User, user_id)
+        user.pic_id = image_id
+        db.session.commit()
+
+    return redirect(
+        url_for(
+            "render_profile",
+        )
+    )
 
 
 # This decorator will redirect the user, activating the login function
@@ -207,8 +246,8 @@ def logout():
 
 
 # Create all db tables
-with app.app_context():
-    db.create_all()
+# with app.app_context():
+#     db.create_all()
 
 if __name__ == "__main__":
     app.run(debug=True)
