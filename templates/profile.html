@@ -4,6 +4,12 @@
     <div class="row bg-light text-center p-3">
       <div class="col col-3">
         <div class="row">
+          {% if image %}
+          <img
+            src="{{ url_for('static', filename='img/' + image.name) }}"
+            alt="Image"
+          />
+          {% else %}
           <!-- Default display picture svg -->
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -19,6 +25,7 @@
               d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
             />
           </svg>
+          {% endif %}
         </div>
         <div class="row">
           <div class="d-flex justify-content-center">
@@ -106,11 +113,18 @@
       <!-- For each post associated with the profile on display create card/col -->
       <div class="col col-3">
         <div id="profileCards" class="card">
+          {% if image %}
+          <img
+            src="{{ url_for('static', filename='img/no-image-available.jpg') }}"
+            alt="Image"
+          />
+          {% else %}
           <img
             class="card-img-top"
             src="{{ url_for('static', filename='img/fashion-1.jpg') }}"
             alt="Card image cap"
           />
+          {% endif %}
           <div class="card-body">
             <!-- Jinja for post.content-->
             <h5 class="card-title">JinJa post.content</h5>

@@ -39,7 +39,7 @@ class Like(db.Model):
 
 class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    img = db.Column(db.LargeBinary, nullable=False)
+    filepath = db.Column(db.String(255), nullable=False)
     name = db.Column(db.Text, nullable=False)
     mimetype = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)

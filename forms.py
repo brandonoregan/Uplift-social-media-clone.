@@ -7,7 +7,6 @@ from wtforms import (
     ValidationError,
     HiddenField,
     FileField,
-    
 )
 from models import User
 
@@ -36,7 +35,7 @@ class SignUpForm(FlaskForm):
         "Password",
         [validators.InputRequired()],
     )
-    submit = SubmitField('Sign up')
+    submit = SubmitField("Sign up")
 
     def validate_username(self, username):
         existing_user_username = User.query.filter_by(username=username.data).first()
@@ -63,11 +62,7 @@ class imageForm(FlaskForm):
     submit = SubmitField("Upload file")
 
 
-
 # class editCommentForm(FlaskForm):
 #     submitEdit = SubmitField('Edit Comment')
 #     post_id = HiddenField()
 #     edit = StringField([validators.InputRequired()])
-
-
-

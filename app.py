@@ -46,6 +46,12 @@ login_manager.login_view = "login"
 
 from models import User
 
+# Set the path to the upload directory within the 'static' folder -- change comment
+path = os.getcwd()
+app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024
+UPLOAD_FOLDER = os.path.join("static", "img")
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
 
 # this function instructs flask_login how to retireve user from db
 @login_manager.user_loader
@@ -192,43 +198,48 @@ def post_like():
 @login_required
 def render_profile():
     dp_form = imageForm()
+    image = Image.query.filter_by(id=current_user.pic_id).first()
     username = current_user.username
-    return render_template("profile.html", dp_form=dp_form, username=username)
-
-
-@app.route("/profile/post")
-@login_required
-def post_post():
-    return render_template("profile.html")
+    return render_template(
+        "profile.html", dp_form=dp_form, username=username, image=image
+    )
 
 
 @app.route("/profile/picture", methods=["POST"])
 @login_required
 def post_dp():
     # Get uploaded image data
-    if request.method == "POST":
-        user_id = current_user.id
-        picture = request.files["upload"]
-        img_data = picture.read()
-        filename = secure_filename(picture.filename)
-        mimetype = picture.mimetype
 
-        # Check if picture exists
-        if not picture:
-            flash("No picture uploaded")
+    user_id = current_user.id
+    file = request.files["upload"]
+    filename = secure_filename(file.filename)
+    filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+    mimetype = file.mimetype
 
-        # Create Image instance and add to db
-        img = Image(img=img_data, mimetype=mimetype, name=filename, user_id=user_id)
-        db.session.add(img)
-        db.session.commit()
+    # Save the uploaded image to the server
+    file.save(filepath)
 
-        # update associated tables
-        image_id = img.id
+    # Check if file exists
+    if not file:
+        flash("No file uploaded")
 
-        user_id = current_user.id
-        user = db.session.get(User, user_id)
-        user.pic_id = image_id
-        db.session.commit()
+    # Create Image instance and add to db
+    img = Image(
+        filepath=filepath,
+        mimetype=mimetype,
+        name=filename,
+        user_id=user_id,
+    )
+    db.session.add(img)
+    db.session.commit()
+
+    # update associated tables
+    image_id = img.id
+
+    user_id = current_user.id
+    user = db.session.get(User, user_id)
+    user.pic_id = image_id
+    db.session.commit()
 
     return redirect(
         url_for(
