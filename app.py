@@ -15,7 +15,7 @@ from flask_login import (
     current_user,
     UserMixin,
 )
-from forms import SignUpForm, LoginForm, commentForm, likeForm, imageForm
+from forms import SignUpForm, LoginForm, commentForm, likeForm, imageForm, postForm
 from config import Config
 from models import db, Post, Like, Comment, Image
 from flask_bcrypt import Bcrypt
@@ -138,6 +138,10 @@ def render_home():
     recent_comments = Comment.query.order_by(desc(Comment.timestamp)).limit(3).all()
     recent_comments_reversed = list(reversed(recent_comments))
     comment_user_mapping = {}
+    image = Image.query.filter_by(id=current_user.pic_id).first()
+    dp_form = imageForm()
+    post_form = postForm()
+    most_recent_image = db.session.query(Image).order_by(desc(Image.id)).first()
 
     # Sets a key:value pair holding, connecting comment to user
     for comment in recent_comments:
@@ -152,6 +156,10 @@ def render_home():
         all_comments=all_comments,
         recent_comments_reversed=recent_comments_reversed,
         comment_user_mapping=comment_user_mapping,
+        image=image,
+        dp_form=dp_form,
+        post_form=post_form,
+        most_recent_image=most_recent_image,
     )
 
 
@@ -193,8 +201,43 @@ def post_like():
     return redirect(url_for("render_home"))
 
 
+@app.route("/home/post", methods=["POST"])
+@login_required
+def post_post():
+    # Get uploaded image data
+
+    user_id = current_user.id
+    file = request.files["upload"]
+    filename = secure_filename(file.filename)
+    filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+    mimetype = file.mimetype
+
+    # Save the uploaded image to the server
+    file.save(filepath)
+
+    # Check if file exists
+    if not file:
+        flash("No file uploaded")
+
+    # Create Image instance and add to db
+    img = Image(
+        filepath=filepath,
+        mimetype=mimetype,
+        name=filename,
+        user_id=user_id,
+    )
+    db.session.add(img)
+    db.session.commit()
+
+    return redirect(
+        url_for(
+            "render_home",
+        )
+    )
+
+
 # This decorater activate the associated function when the specified route is accessed.
-@app.route("/profile/")
+@app.route("/profile")
 @login_required
 def render_profile():
     dp_form = imageForm()

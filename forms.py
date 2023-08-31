@@ -62,6 +62,13 @@ class imageForm(FlaskForm):
     submit = SubmitField("Upload file")
 
 
+class postForm(FlaskForm):
+    title = StringField(
+        "Post title:", render_kw={"placeholder": "Tell us about what you're wearing?"}
+    )
+    submit = SubmitField("Upload post")
+
+
 # class editCommentForm(FlaskForm):
 #     submitEdit = SubmitField('Edit Comment')
 #     post_id = HiddenField()

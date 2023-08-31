@@ -1,33 +1,141 @@
 {% extends 'base.html' %} {% block title %}{% endblock %} {% block content %}
-<div class="container d-flex justify-content-center">
-
-    <!-- middle column -->
-    <div class="col col-6 ms-3 me-3 mw-50">
-
-      <div class="row titleContainer">
-        <h1>Take a look at some of today's outfits</h1>
-        <a href="#" class="btn btn-primary">Create</a>
-      </div>
-
-      <!-- New Post -->
-      {% for post in all_posts %}
-      <div class="card mt-4">
-
-        <div class="d-flex align-items-center postHeader">
-          <svg  xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-person-circle ms-3 me-3 dpIcon" viewBox="0 0 16 16">
-            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-          </svg>
-          <h5 class="card-title mb-0">What shoe's should I wear?</h5>
+<div class="container d-flex justify-content-center mt-3">
+    <div id="homeDash" class="col col-4">
+      <div class="row">
+        <div class="container d-flex align-items-end">
+          <div id="dpBoxBig" class="col col-4 m-3 ">
+            {% if image %}
+              <img id="dpBig" src="{{ url_for('static', filename='img/' + image.name) }}" alt="">
+            {% else %}
+              <svg  xmlns="http://www.w3.org/2000/svg" width="135" height="135" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+              </svg>
+            {% endif %}
+          </div>
+          <div class="col">
+            <div class="row">
+              <h1 id="homeWelcome">Hey {{ current_user.username}}</h1>
+            </div>
+          </div>
+        </div>
+        <!-- Daily go to tag -->
+        <div class="col">
+          <div class="row text-center">
+            <h2>Checkout out what everyone's wearing.</h2>
+          </div>
+        </div>
+        <!-- Add post button -->
+        <div class="row d-flex justify-content-center">
+            <!-- modal button -->
+            <div
+            id="dpButton"
+            class="btn btn-outline-secondary"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
+            Upload Post
+            <!-- Upload image svg -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-upload ms-2"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"
+              />
+              <path
+                d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"
+              />
+            </svg>
+          </div>
+            <!-- Modal -->
+          <div
+          class="modal fade"
+          id="exampleModal"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1
+                  class="modal-title ms-5"
+                  id="exampleModalLabel"
+                >
+                  Upload photo:
+                </h1>
+                
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div id="newImagePostContainer" class="bg-light mb-3 ms-auto me-auto">
+                  {% if most_recent_image %}
+                    <img id="newPostImage" src="{{ url_for('static', filename='img/' + most_recent_image.name) }}" alt="">
+                  {% endif %}
+                </div>
+                <form
+                  id="dpForm"
+                  action="{{ url_for('post_post') }}"
+                  method="post"
+                  enctype="multipart/form-data"
+                  class="text-center"
+                >
+                  {{ dp_form.upload }} {{ dp_form.submit }}
+                </form>
+                <form action="{{ url_for('post_post') }}">
+                  {{ post_form.title.label(class="mt-3") }}
+                  <div id="postTitle" >{{ post_form.title(class="w-100  mb-3 p-1") }}</div>
+                  <div class="text-end">        
+                    {{ post_form.submit(class="btn btn-outline-secondary") }}
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+          </div>
+        </div>   
         </div>
 
-        <div class="">
+      </div>
+    </div>
+    <!-- right side -->
+    <div class="col col-6 ms-3 me-3 mw-50">
+      <!-- New Post -->
+      {% for post in all_posts %}
+      <div id="postCards" class="card">
+
+        <div class="d-flex align-items-center postHeader">
+          <div id="dpBoxSmall" class="ms-3 me-3">
+            {% if image %}
+              <img id="dp" src="{{ url_for('static', filename='img/' + image.name) }}" alt="">
+            {% else %}
+              <svg  xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+              </svg>
+            {% endif %}
+          </div>
+          <h5 class="card-title mb-0">What shoe's should I wear?</h5>
+        </div>
+        <div class="container .">
           <img
             src="{{ url_for('static', filename='img/fashion-1.jpg') }}"
-            class="card-img-top newsFeedImg"
+            class="card-img-top newsFeedImg border-4 radius"
             alt="..."
           />
         </div>
+
         <div class="card-body">
   
           <div class="d-flex justify-content-end">
@@ -73,9 +181,7 @@
               <p id="allComments" class="mt-3  text-secondary">View all comments</p>
               <!-- Add way to view all comments -->
             </div>
-            </div>
-
-          
+            </div>          
         </div>
       </div>
       {% endfor %}

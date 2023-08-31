@@ -47,9 +47,6 @@ body {
   width: 100%;
 }
 
-.comments {
-}
-
 #usernameCom {
   font-weight: bold;
   text-decoration: underline;
@@ -66,4 +63,61 @@ body {
   width: 18rem;
   height: 18rem;
   max-height: 18rem;
+}
+
+#homeDash {
+  height: 100vh;
+  background-color: white;
+  border-radius: 1rem;
+}
+
+.radius {
+  border-radius: 1rem;
+}
+
+#postCards {
+  border-radius: 1rem;
+}
+
+#dpBoxSmall {
+  height: 35px;
+  width: 35px;
+}
+
+#dpBoxBig {
+  height: 135px;
+  width: 135px;
+}
+
+#dp {
+  max-width: 100%;
+  border-radius: 50%;
+}
+
+#dpBig {
+  max-width: 100%;
+  border-radius: 50%;
+}
+
+#homeWelcome {
+  font-size: 3rem;
+}
+
+#dpButton {
+  width: 50%;
+}
+
+#postTitle {
+  min-width: 100%;
+}
+
+#newImagePostContainer {
+  max-width: 350px;
+  height: 350px;
+  overflow: hidden;
+}
+
+#newImagePost {
+  max-width: 100%;
+  max-height: 100%;
 }
