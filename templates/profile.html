@@ -109,67 +109,23 @@
         <p>About</p>
       </div>
     </div>
-    <div class="row bg-dark-subtle p-3">
+    <div class="row bg-dark-subtle g-3 mt-1">
       <!-- For each post associated with the profile on display create card/col -->
+      {% for post in filtered_posts %} {% set post_image =
+      Image.query.filter_by(id=post.pic_id).first() %}
       <div class="col col-3">
-        <div id="profileCards" class="card">
-          {% if image %}
+        <div id="profileCards" class="card overflow-hidden">
           <img
-            src="{{ url_for('static', filename='img/no-image-available.jpg') }}"
+            src="{{ url_for('static', filename='img/' + post_image.name) }}"
             alt="Image"
           />
-          {% else %}
-          <img
-            class="card-img-top"
-            src="{{ url_for('static', filename='img/fashion-1.jpg') }}"
-            alt="Card image cap"
-          />
-          {% endif %}
           <div class="card-body">
             <!-- Jinja for post.content-->
-            <h5 class="card-title">JinJa post.content</h5>
+            <h5 class="card-title">{{ post.content }}</h5>
           </div>
         </div>
       </div>
-      <div class="col col-3">
-        <div id="profileCards" class="card">
-          <img
-            class="card-img-top"
-            src="{{ url_for('static', filename='img/fashion-1.jpg') }}"
-            alt="Card image cap"
-          />
-          <div class="card-body">
-            <!-- Jinja for post.content-->
-            <h5 class="card-title">JinJa post.content</h5>
-          </div>
-        </div>
-      </div>
-      <div class="col col-3">
-        <div id="profileCards" class="card">
-          <img
-            class="card-img-top"
-            src="{{ url_for('static', filename='img/fashion-1.jpg') }}"
-            alt="Card image cap"
-          />
-          <div class="card-body">
-            <!-- Jinja for post.content-->
-            <h5 class="card-title">JinJa post.content</h5>
-          </div>
-        </div>
-      </div>
-      <div class="col col-3">
-        <div id="profileCards" class="card">
-          <img
-            class="card-img-top"
-            src="{{ url_for('static', filename='img/fashion-1.jpg') }}"
-            alt="Card image cap"
-          />
-          <div class="card-body">
-            <!-- Jinja for post.content-->
-            <h5 class="card-title">JinJa post.content</h5>
-          </div>
-        </div>
-      </div>
+      {% endfor %}
     </div>
   </div>
 </div>

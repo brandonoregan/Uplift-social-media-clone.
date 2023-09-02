@@ -275,10 +275,21 @@ def upload_post_img():
 def render_profile():
     """Render specified page for GET request"""
     dp_form = imageForm()
+
     image = Image.query.filter_by(id=current_user.pic_id).first()
     username = current_user.username
+
+    filtered_posts = Post.query.filter_by(user_id=current_user.id).all()
+
+    # usersPost is equal to each post in all post where the current user.id == allpost.userid
+
     return render_template(
-        "profile.html", dp_form=dp_form, username=username, image=image
+        "profile.html",
+        dp_form=dp_form,
+        username=username,
+        image=image,
+        filtered_posts=filtered_posts,
+        Image=Image,
     )
 
 

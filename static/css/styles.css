@@ -62,7 +62,6 @@ body {
 #profileCards {
   width: 18rem;
   height: 18rem;
-  max-height: 18rem;
 }
 
 #homeDash {
@@ -91,12 +90,12 @@ body {
 
 #dp {
   max-width: 100%;
-  border-radius: 50%;
+  border-radius: 1rem;
 }
 
 #dpBig {
   max-width: 100%;
-  border-radius: 50%;
+  border-radius: 1rem;
 }
 
 #homeWelcome {
