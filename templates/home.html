@@ -2,7 +2,7 @@
 <div class="container d-flex justify-content-center mt-3">
     <div id="homeDash" class="col col-4">
       <div class="row">
-        <div class="container d-flex align-items-end">
+        <div class="d-flex align-items-end">
           <div id="dpBoxBig" class="col col-4 m-3 ">
             {% if image %}
               <img id="dpBig" src="{{ url_for('static', filename='img/' + image.name) }}" alt="">
@@ -15,105 +15,82 @@
           </div>
           <div class="col">
             <div class="row">
-              <h1 id="homeWelcome">Hey {{ current_user.username}}</h1>
+              <p id="homeWelcome">Welcome {{ current_user.username}}</p>
             </div>
           </div>
         </div>
         <!-- Daily go to tag -->
         <div class="col">
-          <div class="row text-center">
-            <h2>Checkout out what everyone's wearing.</h2>
+          <!-- ROW-1 -->
+          <!-- ROW-1 -->
+          <!-- <div class="row text-center">
+            <p id="homeMessage">Checkout out what everyone's wearing.</p>
+          </div> -->
+          <!-- ROW-2 -->
+          <!-- ROW-2 -->
+          <div class="row ms-3 me-3">
+            <h3>People you may know</h3>
+            <ul id="peopleList" class="d-flex justify-content-start">
+              {% for user in all_users %}
+                <li id="otherUsers" class="p-1 ms-2"><svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle me-2" viewBox="0 0 16 16">
+                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                </svg>{{ user.username }}</li>
+              {% endfor %}
+            </ul>
           </div>
-        </div>
-        <!-- Add post button -->
-        <div class="row d-flex justify-content-center">
-            <!-- modal button -->
-            <div
-            id="dpButton"
-            class="btn btn-outline-secondary"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
-          >
-            Upload Post
-            <!-- Upload image svg -->
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-upload ms-2"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"
-              />
-              <path
-                d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"
-              />
-            </svg>
+          <div class="row">
+            <div id="showPostFormButton" class="btn btn-outline-secondary">Create a post</div>
           </div>
-            <!-- Modal -->
-          <div
-          class="modal fade"
-          id="exampleModal"
-          tabindex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1
-                  class="modal-title ms-5"
-                  id="exampleModalLabel"
-                >
-                  Upload photo:
-                </h1>
-                
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <div id="newImagePostContainer" class="bg-light mb-3 ms-auto me-auto">
-                  {% if most_recent_image %}
-                    <img id="newPostImage" src="{{ url_for('static', filename='img/' + most_recent_image.name) }}" alt="">
-                  {% endif %}
+          <div id="postFormContainer" class="hidden">
+            <div id="newImagePostContainer" class=" row bg-light text-center">
+              <!-- FIND THE MOST RECENTLY SAVED IMAGE TO DB AND DISPLAY -->
+              {% if most_recent_image %}
+                <img id="newPostImage" src="{{ url_for('static', filename='img/' + most_recent_image.name) }}" alt="">
+              {% endif %}
+            </div>
+            <div class="row">
+              <!-- FORM FOR UPLOADING IMAGE TO POST  -->
+              <!-- FORM FOR UPLOADING IMAGE TO POST  -->
+              <form
+                id="dpForm"
+                action="{{ url_for('upload_post_img') }}"
+                method="post"
+                enctype="multipart/form-data"
+                class="text-center"
+              >
+                <!-- INPUT FILE FORM -->
+                {{ dp_form.upload }}
+                <!-- SUBMIT BUTTON FOR UPLOADING IMAGE -->
+                {{ dp_form.submit }}
+              </form>
+            </div>
+            <!-- FORM FOR UPLOADING POST -->
+            <!-- FORM FOR UPLOADING POST -->
+            <div class="row">
+              <form class="" action="{{ url_for('upload_post') }}" method="POST">
+                <!-- POST TITLE LABEL -->
+                {{ post_form.title.label(class="mt-3 mb-2") }}
+                <div id="postTitle" >
+                  <!-- INPUT FOR POST TITLE -->
+                  {{ post_form.title(class="w-100  mb-3 p-1") }}</div>
+                <div class="text-end">
+                  <!-- SUBMIT BUTTON TO SUBMIT POST -->
+                  {{ post_form.submit(class="btn btn-outline-secondary") }}
                 </div>
-                <form
-                  id="dpForm"
-                  action="{{ url_for('post_post') }}"
-                  method="post"
-                  enctype="multipart/form-data"
-                  class="text-center"
-                >
-                  {{ dp_form.upload }} {{ dp_form.submit }}
-                </form>
-                <form action="{{ url_for('post_post') }}">
-                  {{ post_form.title.label(class="mt-3") }}
-                  <div id="postTitle" >{{ post_form.title(class="w-100  mb-3 p-1") }}</div>
-                  <div class="text-end">        
-                    {{ post_form.submit(class="btn btn-outline-secondary") }}
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-              </div>
+              </form>
             </div>
           </div>
-        </div>   
         </div>
-
       </div>
     </div>
     <!-- right side -->
-    <div class="col col-6 ms-3 me-3 mw-50">
+    <!-- right side -->
+    <div id="rightColHome" class="col col-6 ms-3 me-3 mw-50">
       <!-- New Post -->
       {% for post in all_posts %}
-      <div id="postCards" class="card">
+      <!-- image where id == post.pic.id -->
+      <div id="postCards" class="card mb-3">
 
         <div class="d-flex align-items-center postHeader">
           <div id="dpBoxSmall" class="ms-3 me-3">
@@ -126,11 +103,12 @@
               </svg>
             {% endif %}
           </div>
-          <h5 class="card-title mb-0">What shoe's should I wear?</h5>
+          <h5 class="card-title mb-0">{{ post.content }}</h5>
         </div>
-        <div class="container .">
+        <div class="container">
+          {% set post_image = Image.query.filter_by(id=post.pic_id).first() %}
           <img
-            src="{{ url_for('static', filename='img/fashion-1.jpg') }}"
+            src="{{ url_for('static', filename='img/' + post_image.name) }}"
             class="card-img-top newsFeedImg border-4 radius"
             alt="..."
           />
@@ -139,6 +117,8 @@
         <div class="card-body">
   
           <div class="d-flex justify-content-end">
+            <!-- Add like form -->
+            <!-- Add like form -->
             <form action="{{ url_for('post_like') }}" method="post" >
               <div>
                 {{ newLikeForm.post_id(value=post.id) }}
@@ -149,12 +129,13 @@
               </div> {{
               newLikeForm.hidden_tag() }}
             </form>
-            <div id="commentDisplay" class="btn btn-outline-secondary ms-3">
+            <div id="commentDisplay" class="commentDisplay btn btn-outline-secondary ms-3 ">
               Comment
             </div>
           </div>
-  
           <div id="newComForm" class="newComForm hidden">
+              <!-- New Comment Form -->
+              <!-- New Comment Form -->
               <form action="{{ url_for('post_comment') }}" method="post" >
                 {{ newComForm.post_id(value=post.id) }}
                 <div class="d-flex justify-content-end mt-3 ">
@@ -163,9 +144,11 @@
                 </div>
                 {{ newComForm.hidden_tag() }}
               </form>
-          </div>
+            </div>
           <div class="commentThread">
-            {% for db_comment in recent_comments_reversed %}
+            {% for db_comment in recent_comments_reversed  %}
+            <!-- 1. Post comment on post wher post.id and comment.post_id are equivellant -->
+              {% if db_comment.post_id == post.id %}
                 <div class="comments form-control mt-3 p-2">
                   <div class="d-flex justify-content-between">
                     <p id="usernameCom" class="m-1">{{ comment_user_mapping[db_comment].username }}:</p>
@@ -174,8 +157,10 @@
                     <!-- Add function to delete comments -->
                     {% endif %}
                   </div>
+                  <!-- Displayed comment -->
                   <p class="m-1">{{ db_comment.content }}</p>
                 </div>
+              {% endif %}
             {% endfor %}
             <div class="d-flex justify-content-end">
               <p id="allComments" class="mt-3  text-secondary">View all comments</p>
@@ -188,5 +173,7 @@
     </div>
     <!-- right column -->
   </div>
+</div>
+    
   {% endblock %}
 </div>

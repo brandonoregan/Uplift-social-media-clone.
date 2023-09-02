@@ -20,7 +20,7 @@ from config import Config
 from models import db, Post, Like, Comment, Image
 from flask_bcrypt import Bcrypt
 from datetime import datetime
-from sqlalchemy import desc, BINARY
+from sqlalchemy import desc
 import os
 from werkzeug.utils import secure_filename
 from functions import updateLikes
@@ -120,7 +120,7 @@ def login():
         if user:
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user)
-                return redirect(url_for("home"))
+                return redirect(url_for("render_home"))
             else:
                 flash("Incorrect username or password.")
         else:
@@ -128,20 +128,28 @@ def login():
     return render_template("login.html", form=form)
 
 
-@app.route("/home")
+@app.route("/home", methods=["GET"])
 def render_home():
     """Render specified page for GET request"""
+    # Generate wtforms
     newComForm = commentForm()
     newLikeForm = likeForm()
-    all_posts = Post.query.all()
-    all_comments = Comment.query.all()
-    recent_comments = Comment.query.order_by(desc(Comment.timestamp)).limit(3).all()
-    recent_comments_reversed = list(reversed(recent_comments))
-    comment_user_mapping = {}
-    image = Image.query.filter_by(id=current_user.pic_id).first()
     dp_form = imageForm()
     post_form = postForm()
-    most_recent_image = db.session.query(Image).order_by(desc(Image.id)).first()
+
+    # Collect all instances from associated tables
+    all_users = User.query.all()
+    all_posts = Post.query.order_by(Post.id.desc()).all()
+    all_comments = Comment.query.all()
+
+    # query the database for particular responses
+    recent_comments = Comment.query.order_by(desc(Comment.timestamp)).all()
+    recent_comments_reversed = list(reversed(recent_comments))
+    image = Image.query.filter_by(id=current_user.pic_id).first()
+    most_recent_image = (
+        db.session.query(Image).filter_by(draft=True).order_by(desc(Image.id)).first()
+    )
+    comment_user_mapping = {}
 
     # Sets a key:value pair holding, connecting comment to user
     for comment in recent_comments:
@@ -160,10 +168,33 @@ def render_home():
         dp_form=dp_form,
         post_form=post_form,
         most_recent_image=most_recent_image,
+        all_users=all_users,
+        Image=Image,
     )
 
 
-# This decorater activate the associated function when the specified route is accessed.
+@app.route("/home/post", methods=["POST"])
+def upload_post():
+    """Handle form submission for POST request"""
+    post_form = postForm()
+
+    user_id = current_user.id
+    content = post_form.title.data
+    img_tup = db.session.query(Image.id).order_by(Image.id.desc()).first()
+    pic_id = img_tup[0]
+
+    # create instance of model
+    post = Post(user_id=user_id, content=content, pic_id=pic_id)
+
+    # add post to db
+    db.session.add(post)
+    db.session.commit()
+
+    post_form.title.data = ""
+
+    return redirect(url_for("render_home"))
+
+
 @app.route("/home/comment", methods=["POST"])
 @login_required
 def post_comment():
@@ -188,7 +219,6 @@ def post_comment():
     return redirect(url_for("render_home"))
 
 
-# This decorater activate the associated function when the specified route is accessed.
 @app.route("/home/like", methods=["POST"])
 @login_required
 def post_like():
@@ -201,9 +231,9 @@ def post_like():
     return redirect(url_for("render_home"))
 
 
-@app.route("/home/post", methods=["POST"])
+@app.route("/home/image", methods=["POST"])
 @login_required
-def post_post():
+def upload_post_img():
     # Get uploaded image data
 
     user_id = current_user.id
@@ -211,6 +241,7 @@ def post_post():
     filename = secure_filename(file.filename)
     filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
     mimetype = file.mimetype
+    draft = True
 
     # Save the uploaded image to the server
     file.save(filepath)
@@ -225,7 +256,9 @@ def post_post():
         mimetype=mimetype,
         name=filename,
         user_id=user_id,
+        draft=draft,
     )
+
     db.session.add(img)
     db.session.commit()
 
@@ -240,6 +273,7 @@ def post_post():
 @app.route("/profile")
 @login_required
 def render_profile():
+    """Render specified page for GET request"""
     dp_form = imageForm()
     image = Image.query.filter_by(id=current_user.pic_id).first()
     username = current_user.username
@@ -300,8 +334,8 @@ def logout():
 
 
 # Create all db tables
-# with app.app_context():
-#     db.create_all()
+with app.app_context():
+    db.create_all()
 
 if __name__ == "__main__":
     app.run(debug=True)
