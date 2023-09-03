@@ -4,7 +4,10 @@ def updateLikes(current_user, request, Post, Like, db):
 
     post = Post.query.filter_by(id=post_id).first()
     if post:
-        post.likes = post.likes + 1
+        if post.likes is None:
+            post.likes = 1
+        else:
+            post.likes = post.likes + 1
         db.session.flush()
         db.session.refresh(post)
         db.session.commit()
