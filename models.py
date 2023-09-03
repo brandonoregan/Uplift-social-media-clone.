@@ -19,7 +19,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     content = db.Column(db.Text, nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-    likes = db.Column(db.Integer)
+    likes = db.Column(db.Integer, default=0)
     pic_id = db.Column(db.Integer, db.ForeignKey("image.id"))
 
 
@@ -43,3 +43,5 @@ class Image(db.Model):
     name = db.Column(db.Text, nullable=False)
     mimetype = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    post_id = db.Column(db.Integer)
+    draft = db.Column(db.Boolean, default=False)
