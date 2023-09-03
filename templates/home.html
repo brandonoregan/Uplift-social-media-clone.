@@ -39,10 +39,10 @@
               {% endfor %}
             </ul>
           </div>
-          <div class="row">
+          <!-- <div class="row">
             <div id="showPostFormButton" class="btn btn-outline-secondary">Create a post</div>
-          </div>
-          <div id="postFormContainer" class="hidden">
+          </div> -->
+          <div id="postFormContainer" class="">
             <div id="newImagePostContainer" class=" row bg-light text-center">
               <!-- FIND THE MOST RECENTLY SAVED IMAGE TO DB AND DISPLAY -->
               {% if most_recent_image %}
@@ -57,10 +57,10 @@
                 action="{{ url_for('upload_post_img') }}"
                 method="post"
                 enctype="multipart/form-data"
-                class="text-center"
+                class="d-flex"
               >
                 <!-- INPUT FILE FORM -->
-                {{ dp_form.upload }}
+                {{ dp_form.upload() }}
                 <!-- SUBMIT BUTTON FOR UPLOADING IMAGE -->
                 {{ dp_form.submit }}
               </form>
@@ -73,7 +73,7 @@
                 {{ post_form.title.label(class="mt-3 mb-2") }}
                 <div id="postTitle" >
                   <!-- INPUT FOR POST TITLE -->
-                  {{ post_form.title(class="w-100  mb-3 p-1") }}</div>
+                  {{ post_form.title(class="w-100 p-1 mb-3") }}</div>
                 <div class="text-end">
                   <!-- SUBMIT BUTTON TO SUBMIT POST -->
                   {{ post_form.submit(class="btn btn-outline-secondary") }}
@@ -115,8 +115,10 @@
         </div>
 
         <div class="card-body">
-  
-          <div class="d-flex justify-content-end">
+          <div class="d-flex justify-content-end align-content-center">
+            {% if post.likes > 0 %}
+            <p class="me-auto ms-3">Likes: {{ post.likes }}</p>
+            {% endif %}
             <!-- Add like form -->
             <!-- Add like form -->
             <form action="{{ url_for('post_like') }}" method="post" >
