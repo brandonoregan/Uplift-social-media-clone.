@@ -45,6 +45,14 @@ class SignUpForm(FlaskForm):
                 message="Username already exists. Please choose another username."
             )
 
+    def validate_email(self, email):
+        existing_user_email = User.query.filter_by(email=email.data).first()
+
+        if existing_user_email:
+            raise ValidationError(
+                message="Email already exists. Please choose another email."
+            )
+
 
 class commentForm(FlaskForm):
     comment = StringField("What do you think?", [validators.InputRequired()])

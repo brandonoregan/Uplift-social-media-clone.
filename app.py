@@ -20,7 +20,7 @@ from config import Config
 from models import db, Post, Like, Comment, Image
 from flask_bcrypt import Bcrypt
 from datetime import datetime
-from sqlalchemy import desc
+from sqlalchemy import desc, create_engine
 import os
 from werkzeug.utils import secure_filename
 from functions import updateLikes
@@ -28,6 +28,9 @@ from functions import updateLikes
 
 # create an object of the Flask class
 app = Flask(__name__)
+
+#
+app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {"pool_pre_ping": True}
 
 # load config settings from config.py
 app.config.from_object(Config)
@@ -92,12 +95,15 @@ def signup():
         password = form.password.data
         hashed_pw = bcrypt.generate_password_hash(password).decode("utf-8")
         user = User(username=username, email=email, password=hashed_pw)
+
         db.session.add(user)
         db.session.commit()
 
+        flash("User added successfullly!")
+
         # Log in the user and redirect to the specified page
         login_user(user)
-        return redirect(url_for("home"))
+        return redirect(url_for("render_home"))
 
     # If form validation fails, re-
     return render_template("index.html", form=form)
@@ -153,7 +159,8 @@ def render_home():
 
     # Sets a key:value pair holding, connecting comment to user
     for comment in recent_comments:
-        user = User.query.get(comment.user_id)
+        # user = User.query.get(comment.user_id) same as line below but the old way
+        user = db.session.get(User, comment.user_id)
         comment_user_mapping[comment] = user
 
     return render_template(

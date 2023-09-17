@@ -29,7 +29,7 @@
         <p>{{ form.submit() }}</p>
         {% if form.errors %} {% for field, errors in form.errors.items() %} {%
         for error in errors %}
-        <div class="alert alert-danger">{{ field }}: {{ error }}</div>
+        <div class="alert alert-danger">{{ error }}</div>
         {% endfor %} {% endfor %} {% endif %}
       </form>
     </div>
