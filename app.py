@@ -20,7 +20,7 @@ from config import Config
 from models import db, Post, Like, Comment, Image
 from flask_bcrypt import Bcrypt
 from datetime import datetime
-from sqlalchemy import desc, create_engine
+from sqlalchemy import desc
 import os
 from werkzeug.utils import secure_filename
 from functions import updateLikes
@@ -152,9 +152,7 @@ def render_home():
     recent_comments = Comment.query.order_by(desc(Comment.timestamp)).all()
     recent_comments_reversed = list(reversed(recent_comments))
     image = Image.query.filter_by(id=current_user.pic_id).first()
-    most_recent_image = (
-        db.session.query(Image).filter_by(draft=True).order_by(desc(Image.id)).first()
-    )
+    most_recent_image = db.session.query(Image).order_by(desc(Image.id)).first()
     comment_user_mapping = {}
 
     # Sets a key:value pair holding, connecting comment to user
@@ -195,6 +193,11 @@ def upload_post():
 
     # add post to db
     db.session.add(post)
+    db.session.commit()
+
+    # Update database, change most recent image draft == False.
+    most_recent_image = db.session.query(Image).order_by(desc(Image.id)).first()
+    most_recent_image.draft = False
     db.session.commit()
 
     post_form.title.data = ""
@@ -274,6 +277,11 @@ def upload_post_img():
             "render_home",
         )
     )
+
+
+# If draft = True display
+# If draft = false don't display
+# If post submitted change most recent image to false
 
 
 # This decorater activate the associated function when the specified route is accessed.

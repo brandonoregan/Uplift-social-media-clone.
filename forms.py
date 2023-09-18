@@ -8,6 +8,7 @@ from wtforms import (
     HiddenField,
     FileField,
 )
+from flask_wtf.file import FileRequired
 from models import User
 
 
@@ -66,7 +67,7 @@ class likeForm(FlaskForm):
 
 
 class imageForm(FlaskForm):
-    upload = FileField("Upload Picture")
+    upload = FileField("Upload Picture", validators=[FileRequired()])
     submit = SubmitField("Upload file")
 
 
@@ -74,7 +75,7 @@ class postForm(FlaskForm):
     title = StringField(
         "Post title:", render_kw={"placeholder": "Tell us about what you're wearing?"}
     )
-    submit = SubmitField("Upload post")
+    submit = SubmitField("Upload post", validators=[FileRequired()])
 
 
 # class editCommentForm(FlaskForm):
