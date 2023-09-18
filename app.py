@@ -15,7 +15,15 @@ from flask_login import (
     current_user,
     UserMixin,
 )
-from forms import SignUpForm, LoginForm, commentForm, likeForm, imageForm, postForm
+from forms import (
+    SignUpForm,
+    LoginForm,
+    commentForm,
+    likeForm,
+    imageForm,
+    postForm,
+    deleteForm,
+)
 from config import Config
 from models import db, Post, Like, Comment, Image
 from flask_bcrypt import Bcrypt
@@ -142,6 +150,7 @@ def render_home():
     newLikeForm = likeForm()
     dp_form = imageForm()
     post_form = postForm()
+    delete_form = deleteForm()
 
     # Collect all instances from associated tables
     all_users = User.query.all()
@@ -175,6 +184,7 @@ def render_home():
         most_recent_image=most_recent_image,
         all_users=all_users,
         Image=Image,
+        delete_form=delete_form,
     )
 
 
@@ -203,6 +213,22 @@ def upload_post():
     post_form.title.data = ""
 
     return redirect(url_for("render_home"))
+
+
+# This decorater activate the associated function when the specified route is accessed.
+@app.route("/home/delete", methods=["POST"])
+@login_required
+def delete_comment():
+    newDeleteForm = deleteForm()
+
+    if request.method == "POST" and newDeleteForm.validate_on_submit():
+        comment = Comment.query.get(comment_id)
+
+        if comment and comment.user_id == current_user.id:
+            db.session.delete(comment)
+            db.session.commit()
+
+            return redirect(url_for("render_home"))
 
 
 @app.route("/home/comment", methods=["POST"])
@@ -277,11 +303,6 @@ def upload_post_img():
             "render_home",
         )
     )
-
-
-# If draft = True display
-# If draft = false don't display
-# If post submitted change most recent image to false
 
 
 # This decorater activate the associated function when the specified route is accessed.

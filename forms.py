@@ -61,6 +61,11 @@ class commentForm(FlaskForm):
     submit3 = SubmitField("Send")
 
 
+class deleteForm(FlaskForm):
+    comment_id = HiddenField(name="comment_id")
+    submit = SubmitField("Delete")
+
+
 class likeForm(FlaskForm):
     post_id = HiddenField()
     submitLike = SubmitField("Like")
