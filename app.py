@@ -60,7 +60,17 @@ from models import User
 # Set the path to the upload directory within the 'static' folder -- change comment
 path = os.getcwd()
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024
-UPLOAD_FOLDER = os.path.join("static", "img")
+
+# Get the absolute path of the current script
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Define the path to the 'static' directory relative to the current script
+UPLOAD_FOLDER = os.path.join(current_dir, "static", "img")
+
+# Now, 'static_dir' contains the absolute path to the 'static' directory
+print(UPLOAD_FOLDER)
+print("@@@@@@@@@@")
+
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 
