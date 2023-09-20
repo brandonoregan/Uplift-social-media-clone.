@@ -1,10 +1,11 @@
 {% extends 'base.html' %} {% block title %}{% endblock %} {% block content %}
-<div class="container">
-  <div class="row p-3">
-    <div class="col col-3">
-      <div class="row">
+<div class="container mb-3 profileHeroSection">
+  <div class="row">
+    <div class="col heroLeftCol">
+      <div class="row d-flex justify-content-center">
         {% if image %}
         <img
+          class="shadow profileDp"
           src="{{ url_for('static', filename='img/' + image.name) }}"
           alt="Image"
         />
@@ -26,11 +27,12 @@
         </svg>
         {% endif %}
       </div>
-      <div class="row">
+
+      <div class="row d-flex justify-content-center">
         <div class="d-flex justify-content-center">
           <div
             id="dpButton"
-            class="btn btn-outline-secondary mt-3"
+            class="btn mt-2 customButton"
             data-bs-toggle="modal"
             data-bs-target="#exampleModal"
           >
@@ -100,25 +102,35 @@
         </div>
       </div>
     </div>
-    <div class="col">
-      <h1 class="text-end text-decoration-underline">{{ username }}</h1>
-      <p>About</p>
+    <div
+      class="col align-self-center text-center text-md-start mt-3 mb-3 heroRightCol"
+    >
+      <h2 class="profileHeroQuote">
+        <span class="usernameTarget">HEY {{ username.upper() }} </span> <br />
+        TAKE A LOOK <br />
+        AT ALL THE POSITIVITY <br />
+        YOU'VE SHARED
+      </h2>
     </div>
   </div>
-  <div class="row bg-dark-subtle g-3 mt-1">
+</div>
+
+<!-- All Post Section -->
+<!-- All Post Section -->
+<div class="container profilePostSection">
+  <div class="row mt-3 d-flex justify-content-center">
     <!-- For each post associated with the profile on display create card/col -->
     {% for post in filtered_posts %} {% set post_image =
     Image.query.filter_by(id=post.pic_id).first() %}
-    <div class="col col-3">
-      <div id="profileCards" class="card overflow-hidden">
-        <img
-          src="{{ url_for('static', filename='img/' + post_image.name) }}"
-          alt="Image"
-        />
-        <div class="card-body">
-          <!-- Jinja for post.content-->
-          <h5 class="card-title">{{ post.content }}</h5>
-        </div>
+    <div class="shadow p-0 me-3 mb-3 profileCards">
+      <img
+        class="profilePostImage"
+        src="{{ url_for('static', filename='img/' + post_image.name) }}"
+        alt="Image"
+      />
+      <div class="card-body">
+        <!-- Jinja for post.content-->
+        <h5 class="card-title">{{ post.content }}</h5>
       </div>
     </div>
     {% endfor %}

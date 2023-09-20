@@ -10,9 +10,24 @@
   --roboto: "Roboto", sans-serif;
 }
 
+/* Global styles */
+/* Global styles */
+/* Global styles */
+
 body {
   background-color: var(--yellow-3);
   font-family: Helvetica, Arial, sans-serif;
+}
+
+/* Custom button design */
+.customButton {
+  background-color: transparent;
+  border: 1px solid black;
+}
+
+.customButton:hover {
+  background-color: black;
+  color: white;
 }
 
 /* NAV SECTION */
@@ -30,6 +45,10 @@ body {
 .navbar-brand {
   font-weight: 700;
   font-family: var(--roboto);
+}
+
+.navbar-toggler {
+  border: 1px solid black;
 }
 
 /* Will only aplly inner style from set size and up */
@@ -128,12 +147,6 @@ body {
 #allComments:hover {
   cursor: pointer;
   text-decoration: underline;
-}
-
-/* Styles post cards on user profiles */
-#profileCards {
-  width: 18rem;
-  height: 18rem;
 }
 
 .radius {
@@ -277,4 +290,65 @@ body {
   max-width: 80%;
   margin: auto;
   margin-bottom: 1rem;
+}
+
+/* PROFILE SECION */
+/* PROFILE SECION */
+/* PROFILE SECION */
+
+.heroLeftCol {
+  min-width: 350px;
+}
+
+.heroRightCol {
+  min-width: 350px;
+}
+
+/* Profile img  */
+.profileDp {
+  height: 250px;
+  width: 250px;
+  border-radius: 50%;
+  object-fit: cover;
+  padding: 0;
+  border: 1px solid grey;
+}
+
+/* The main quote for the profile section */
+.profileHeroQuote {
+  font-family: var(--roboto);
+}
+
+.usernameTarget {
+  text-decoration: underline;
+}
+
+/* The hero section */
+.profileHeroSection {
+  max-width: 1200px;
+}
+
+/* The section holding all posts */
+.profilePostSection {
+  background-color: var(--yellow-3);
+  border-top: 1px solid black;
+  max-width: 1200px;
+}
+
+/* Styles post cards on user profiles */
+.profileCards {
+  width: 18rem;
+  height: 18rem;
+  border-radius: 1rem;
+  border: 1px solid grey;
+  overflow: hidden;
+}
+
+/* Image on profile post */
+.profilePostImage {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
 }
