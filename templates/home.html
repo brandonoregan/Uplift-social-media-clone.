@@ -44,7 +44,7 @@
       </div>
       <div class="row">
         <div
-          class="col d-flex align-items-center ms-3 mb-3 shadow postMessageContainer"
+          class="col d-flex align-items-center ms-3 mb-3 me-3 postMessageContainer"
         >
           <p class="mb-2 mt-2 postMessage">Let's create a post...</p>
         </div>
@@ -116,8 +116,8 @@
       <!-- New Post -->
       {% for post in all_posts %}
       <!-- image where id == post.pic.id -->
-      <div class="card mb-3 shadow postCards">
-        <div class="d-flex align-items-center shadow postHeader">
+      <div class="card mb-3 postCards">
+        <div class="d-flex align-items-center postHeader">
           <div class="ms-3 me-3 dpBoxSmall">
             {% if image %}
             <img

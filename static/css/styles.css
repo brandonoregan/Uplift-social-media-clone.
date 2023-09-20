@@ -138,7 +138,7 @@ body {
 
 .titleContainer {
   max-width: 100%;
-  border-radius: 0 1rem 1rem 0;
+  border-radius: 0rem 1rem 1rem 0rem;
   background-color: var(--yellow-3);
   /* border: 1px solid grey; */
 }
@@ -210,7 +210,7 @@ body {
 
 .postMessageContainer {
   max-width: 100%;
-  border-radius: 1rem 0 0 1rem;
+  border-radius: 1rem;
   background-color: var(--yellow-3);
 }
 
@@ -218,12 +218,12 @@ body {
 .postHeader {
   height: 3.5rem;
   max-width: 100%;
-  border-radius: 1rem 0 0 1rem;
+  border-radius: 1rem;
   background-color: var(--yellow-3);
   margin-top: 1rem;
   margin-bottom: 1rem;
   margin-left: 1rem;
-  margin-right: 0px;
+  margin-right: 1rem;
 }
 
 /* Text content of the user post */
@@ -351,4 +351,59 @@ body {
   object-fit: cover;
   height: 100%;
   width: 100%;
+}
+
+/* Sign up section */
+/* Sign up section */
+/* Sign up section */
+
+.signUpHeroText {
+  font-family: var(--roboto);
+}
+
+.signUpCard {
+  border-radius: 1rem;
+}
+
+.signUpContainer {
+  max-width: 1200px;
+}
+
+.customButtomSignUp {
+  font-size: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 1rem;
+}
+
+/* Container for title info in sign up form */
+.signUpTitleContainer {
+  background-color: var(--yellow-3);
+  border-radius: 1rem;
+}
+
+/* Sign up today title */
+.signUpFormTitle {
+  font-family: var(--roboto);
+  font-size: 2rem;
+}
+
+/* Sign up today text */
+.signUpFormText {
+  font-family: var(--roboto);
+  font-size: 1rem;
+}
+
+/* .emailInput {
+  width: 300px;
+  border-radius: 2px;
+} */
+
+/* inputs for sign up forms */
+.signUpInput {
+  width: 90%;
+  height: 3rem;
+  border-radius: 8px;
+  padding-left: 1rem;
+  font-size: 1.5rem;
 }

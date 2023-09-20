@@ -27,14 +27,16 @@ class LoginForm(FlaskForm):
 
 # Class for the sign up form which inherits the login class
 class SignUpForm(FlaskForm):
-    email = StringField("Email", [validators.InputRequired()])
+    email = StringField(
+        "Email:", [validators.InputRequired()], render_kw={"placeholder": "Email"}
+    )
     username = StringField(
-        "Username",
+        "Username:",
         [validators.Length(min=6), validators.InputRequired()],
+        render_kw={"placeholder": "Username"},
     )
     password = PasswordField(
-        "Password",
-        [validators.InputRequired()],
+        "Password:", [validators.InputRequired()], render_kw={"placeholder": "Password"}
     )
     submit = SubmitField("Sign up", id="submitButton")
 
