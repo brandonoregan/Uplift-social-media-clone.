@@ -407,3 +407,30 @@ body {
   padding-left: 1rem;
   font-size: 1.5rem;
 }
+
+/* Login section */
+/* Login section */
+/* Login section */
+
+.loginInput {
+  width: 90%;
+  height: 3rem;
+  border-radius: 8px;
+  padding-left: 1rem;
+  font-size: 1.5rem;
+}
+
+/* Container for title info in login form */
+.signUpTitleContainer {
+  background-color: var(--yellow-3);
+  border-radius: 1rem;
+}
+
+.loginCard {
+  border-radius: 1rem;
+}
+
+.loginUpHeroText {
+  font-family: var(--roboto);
+  font-size: 5rem;
+}

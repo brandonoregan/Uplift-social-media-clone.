@@ -17,10 +17,10 @@ class LoginForm(FlaskForm):
     username = StringField(
         "Username",
         [validators.Length(min=6), validators.InputRequired()],
+        render_kw={"placeholder": "Username"},
     )
     password = PasswordField(
-        "Password",
-        [validators.InputRequired()],
+        "Password", [validators.InputRequired()], render_kw={"placeholder": "Password"}
     )
     submit = SubmitField("Login", id="submitButton")
 
