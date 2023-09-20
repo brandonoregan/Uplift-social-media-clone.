@@ -1,9 +1,9 @@
-<nav class="navbar navbar-expand-md bg-dark text-light">
+<nav class="navbar navbar-expand-md">
   <div class="container-fluid innerNavContainer">
     <a
-      class="navbar-brand text-light"
+      class="navbar-brand"
       href="{% if user.is_authenticated %}{{ url_for('render_home') }}{% else %}{{ url_for('render_signup') }}{% endif %}"
-      >UpLift</a
+      >UPLIFT</a
     >
     <button
       class="navbar-toggler ml-auto bg-white"
@@ -21,7 +21,7 @@
         {% if user.is_authenticated %}
         <li class="nav-item me-3">
           <a
-            class="nav-link active text-light"
+            class="nav-link active"
             aria-current="page"
             href="{{ url_for('render_home') }}"
             >Home</a
@@ -29,26 +29,20 @@
         </li>
         <li class="nav-item me-3">
           <a
-            class="nav-link text-light"
+            class="nav-link"
             href="{{ url_for('render_profile', username=current_user.username) }}"
             >Profile</a
           >
         </li>
         <li class="nav-item me-3">
-          <a class="nav-link text-light" href="{{ url_for('logout') }}"
-            >Log out</a
-          >
+          <a class="nav-link" href="{{ url_for('logout') }}">Log out</a>
         </li>
         {% else %}
         <li class="nav-item me-3">
-          <a class="nav-link whiteText" href="{{ url_for('render_login') }}"
-            >Log in</a
-          >
+          <a class="nav-link" href="{{ url_for('render_login') }}">Log in</a>
         </li>
         <li class="nav-item me-3">
-          <a class="nav-link whiteText" href="{{ url_for('render_signup') }}"
-            >Sign up</a
-          >
+          <a class="nav-link" href="{{ url_for('render_signup') }}">Sign up</a>
         </li>
         {% endif %}
       </ul>

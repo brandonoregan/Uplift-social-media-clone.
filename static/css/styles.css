@@ -1,9 +1,36 @@
-body {
-  background-color: #d3d3d3;
+:root {
+  /* These are the custom color variables used */
+  --yellow-1: #ffffb7;
+  --yellow-2: #fff192;
+  --yellow-3: #ffea61;
+  --yellow-4: #ffdd3c;
+  --yellow-5: #ffd400;
+
+  /* Custom google fonts */
+  --roboto: "Roboto", sans-serif;
 }
+
+body {
+  background-color: var(--yellow-3);
+  font-family: Helvetica, Arial, sans-serif;
+}
+
 /* NAV SECTION */
 /* NAV SECTION */
 /* NAV SECTION */
+
+.navbar {
+  background-color: var(--yellow-3);
+  border-radius: 0rem 0rem 1rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-family: var(--roboto);
+}
 
 /* Will only aplly inner style from set size and up */
 @media (min-width: 768px) {
@@ -14,11 +41,11 @@ body {
 }
 
 .nav-item {
-  color: white;
+  /* color: white; */
 }
 
 .whiteText {
-  color: white;
+  color: black;
 }
 
 .newsFeedImg {
@@ -62,12 +89,12 @@ body {
 /* HOME SECTION */
 /* HOME SECTION */
 /* HOME SECTION */
-/* 
-@media (max-width: 768px) {
-  .homeRowContainer {
-    max-width: 600px;
+
+@media (min-width: 768px) {
+  .leftColHome {
+    top: 58px;
   }
-} */
+}
 
 .homeContainer {
   max-width: 1200px;
@@ -79,9 +106,10 @@ body {
   height: fit-content;
   overflow-y: auto;
   background-color: white;
-  /* position: sticky;
-  top: 0; */
+  /* /* position: sticky; */
+
   border-radius: 1rem;
+  /* border: 1px solid grey; */
 }
 
 /* right panel container */
@@ -92,7 +120,8 @@ body {
 .titleContainer {
   max-width: 100%;
   border-radius: 0 1rem 1rem 0;
-  background-color: gainsboro;
+  background-color: var(--yellow-3);
+  /* border: 1px solid grey; */
 }
 
 /* Add hover effect to text */
@@ -111,6 +140,7 @@ body {
   border-radius: 1rem;
 }
 
+/* The card container that hold each post */
 .postCards {
   border-radius: 1rem;
 }
@@ -121,6 +151,7 @@ body {
   width: 35px;
   border-radius: 50%;
   object-fit: cover;
+  border: 1px solid grey;
 }
 /* 
 .dpBoxSmall {
@@ -139,6 +170,7 @@ body {
 
 /* Image for big display picture */
 .dpBig {
+  border: 1px solid grey;
   height: 100px;
   width: 100px;
   border-radius: 50%;
@@ -154,6 +186,7 @@ body {
 .homeWelcome {
   font-size: 1.5em;
   font-weight: 600;
+  font-family: var(--roboto);
 }
 
 /* The posting message on the home dash */
@@ -165,7 +198,7 @@ body {
 .postMessageContainer {
   max-width: 100%;
   border-radius: 1rem 0 0 1rem;
-  background-color: gainsboro;
+  background-color: var(--yellow-3);
 }
 
 /* Post header container */
@@ -173,7 +206,7 @@ body {
   height: 3.5rem;
   max-width: 100%;
   border-radius: 1rem 0 0 1rem;
-  background-color: gainsboro;
+  background-color: var(--yellow-3);
   margin-top: 1rem;
   margin-bottom: 1rem;
   margin-left: 1rem;
