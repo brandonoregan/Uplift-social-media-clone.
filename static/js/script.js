@@ -19,3 +19,27 @@ commentDisplayButtons.forEach(function (button) {
     // newComFormClass.classList.toggle("hidden");
   });
 });
+
+// // Prevent forms submitting multiple times with multiple clicks
+// document.addEventListener("DOMContentLoaded", function () {
+//   console.log("JavaScript executed");
+//   const submitButton = document.getElementById("submitButton");
+
+//   // Get isSubmitting from local storage
+//   let isSubmitting = localStorage.getItem("isSubmitting") === "true";
+
+//   if (isSubmitting) {
+//     submitButton.disabled = true;
+//   }
+
+//   submitButton.addEventListener("click", function (e) {
+//     if (isSubmitting) {
+//       e.preventDefault(); // Prevent multiple form submissions
+//     } else {
+//       isSubmitting = true;
+//       submitButton.disabled = true; // Disable the button
+
+//       localStorage.setItem("isSubmitting", "true");
+//     }
+//   });
+// });

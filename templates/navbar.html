@@ -1,12 +1,12 @@
-<nav class="navbar navbar-expand-sm bg-dark text-light>
-  <div class="container-fluid">
+<nav class="navbar navbar-expand-md bg-dark text-light">
+  <div class="container-fluid innerNavContainer">
     <a
       class="navbar-brand text-light"
       href="{% if user.is_authenticated %}{{ url_for('render_home') }}{% else %}{{ url_for('render_signup') }}{% endif %}"
-      >DressMe</a
+      >UpLift</a
     >
     <button
-      class="navbar-toggler"
+      class="navbar-toggler ml-auto bg-white"
       type="button"
       data-bs-toggle="collapse"
       data-bs-target="#navbarSupportedContent"
@@ -17,9 +17,9 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         {% if user.is_authenticated %}
-        <li class="nav-item">
+        <li class="nav-item me-3">
           <a
             class="nav-link active text-light"
             aria-current="page"
@@ -27,29 +27,34 @@
             >Home</a
           >
         </li>
-        <li class="nav-item">
+        <li class="nav-item me-3">
           <a
             class="nav-link text-light"
             href="{{ url_for('render_profile', username=current_user.username) }}"
             >Profile</a
           >
         </li>
-        <li class="nav-item">
+        <li class="nav-item me-3">
           <a class="nav-link text-light" href="{{ url_for('logout') }}"
             >Log out</a
           >
         </li>
         {% else %}
-        <li class="nav-item">
-          <a class="nav-link whiteText" href="{{ url_for('render_login') }}">Log in</a>
+        <li class="nav-item me-3">
+          <a class="nav-link whiteText" href="{{ url_for('render_login') }}"
+            >Log in</a
+          >
         </li>
-        <li class="nav-item ">
-          <a class="nav-link whiteText" href="{{ url_for('render_signup') }}">Sign up</a>
+        <li class="nav-item me-3">
+          <a class="nav-link whiteText" href="{{ url_for('render_signup') }}"
+            >Sign up</a
+          >
         </li>
         {% endif %}
       </ul>
       {% if user.is_authenticated %}
-      <form class="d-flex" role="search">
+      <!-- Search bar for other users -->
+      <!-- <form class="d-flex" role="search">
         <input
           class="form-control me-2"
           type="search"
@@ -57,7 +62,7 @@
           aria-label="Search"
         />
         <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+      </form> -->
       {% endif %}
     </div>
   </div>

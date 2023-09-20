@@ -173,6 +173,7 @@ def render_home():
     image = Image.query.filter_by(id=current_user.pic_id).first()
     most_recent_image = db.session.query(Image).order_by(desc(Image.id)).first()
     comment_user_mapping = {}
+    now = datetime.utcnow()
 
     # Sets a key:value pair holding, connecting comment to user
     for comment in recent_comments:
@@ -195,6 +196,7 @@ def render_home():
         all_users=all_users,
         Image=Image,
         delete_form=delete_form,
+        now=now,
     )
 
 

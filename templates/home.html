@@ -1,67 +1,82 @@
 {% extends 'base.html' %} {% block title %}{% endblock %} {% block content %}
-<div class="container d-flex justify-content-center mt-3">
-    <div id="homeDash" class="col col-4">
-      <div class="row">
-        <div class="d-flex align-items-end">
-          <div id="dpBoxBig" class="col col-4 m-3 ">
-            {% if image %}
-              <img id="dpBig" src="{{ url_for('static', filename='img/' + image.name) }}" alt="">
-            {% else %}
-              <svg  xmlns="http://www.w3.org/2000/svg" width="135" height="135" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-              </svg>
-            {% endif %}
-          </div>
-          <div class="col">
-            <div class="row">
-              <p id="homeWelcome">Welcome {{ current_user.username}}</p>
-            </div>
-          </div>
+<div class="container mt-3 homeContainer">
+  <div
+    class="row d-flex justify-content-center me-3 ms-3 flex-column flex-md-row homeRowContainer"
+  >
+    <!-- left side -->
+    <!-- left side -->
+    <div
+      class="col col-md-5 leftColHome position-sticky sticky-md-top mb-3 mb-md-0 mx-md-3"
+    >
+      <div class="row d-flex align-items-center mt-3 mb-3 titleContainer">
+        <div class="dpBoxBig" class="col col-4">
+          {% if image %}
+          <img
+            class="dpBig"
+            src="{{ url_for('static', filename='img/' + image.name) }}"
+            alt=""
+          />
+          {% else %}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="135"
+            height="135"
+            fill="currentColor"
+            class="bi bi-person-circle"
+            viewBox="0 0 16 16"
+          >
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+            <path
+              fill-rule="evenodd"
+              d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
+            />
+          </svg>
+          {% endif %}
         </div>
-        <!-- Daily go to tag -->
-        <div class="col">
-          <!-- ROW-1 -->
-          <!-- ROW-1 -->
-          <!-- <div class="row text-center">
-            <p id="homeMessage">Checkout out what everyone's wearing.</p>
-          </div> -->
-          <!-- ROW-2 -->
-          <!-- ROW-2 -->
-          <!-- PEOPLE YOU MAY KNOW SECTION -->
-          <!-- PEOPLE YOU MAY KNOW SECTION -->
-          <!-- <div class="row ms-3 me-3">
-            <h3>People you may know</h3>
-            <ul id="peopleList" class="d-flex justify-content-between">
-              {% for user in all_users[:4] %}
-                <li id="otherUsers" class="p-1 ms-2"><svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle me-2" viewBox="0 0 16 16">
-                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                </svg>{{ user.username }}</li>
-              {% endfor %}
-            </ul>
-          </div> -->
-          <!-- <div class="row">
-            <div id="showPostFormButton" class="btn btn-outline-secondary">Create a post</div>
-          </div> -->
-          <div id="postFormContainer" class="">
-            <div id="newImagePostContainer" class=" row bg-light text-center">
+        <div class="col d-flex align-items-center">
+          <p class="homeWelcome text-center">
+            <!-- Dynamically loads greeting depending on the time of day -->
+            {% set hour = now.hour %} {% if hour >= 0 and hour < 12 %} Good
+            morning! {% else %} Good evening! {% endif %} {{
+            current_user.username}}
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div
+          class="col d-flex align-items-center ms-3 mb-3 postMessageContainer"
+        >
+          <p class="mb-2 mt-2 postMessage">Let's create a post...</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col mt-auto mb-auto">
+          <div class="postFormContainer">
+            <div class="row bg-light text-center p-0 newImagePostContainer">
               <!-- FIND THE MOST RECENTLY SAVED IMAGE TO DB AND DISPLAY -->
               {% if most_recent_image.draft == True %}
-                <img id="newPostImage" src="{{ url_for('static', filename='img/' + most_recent_image.name) }}" alt="">
+              <img
+                id=""
+                class="newPostImage"
+                src="{{ url_for('static', filename='img/' + most_recent_image.name) }}"
+                alt=""
+              />
               {% else %}
-                <img id="newPostImage" src="{{ url_for('static', filename='img/no-image-available.jpg') }}" alt="">
+              <img
+                class="newPostImage"
+                src="{{ url_for('static', filename='img/upload_img.jpg') }}"
+                alt=""
+              />
               {% endif %}
             </div>
             <div class="row">
               <!-- FORM FOR UPLOADING IMAGE TO POST  -->
               <!-- FORM FOR UPLOADING IMAGE TO POST  -->
               <form
-                id="dpForm"
                 action="{{ url_for('upload_post_img') }}"
                 method="post"
                 enctype="multipart/form-data"
-                class="d-flex"
+                class="d-flex justify-content-center"
               >
                 <!-- INPUT FILE FORM -->
                 {{ dp_form.upload() }}
@@ -71,14 +86,20 @@
             </div>
             <!-- FORM FOR UPLOADING POST -->
             <!-- FORM FOR UPLOADING POST -->
-            <div class="row {% if most_recent_image.draft == False %}hidden
-          {% endif %}">
-              <form class="" action="{{ url_for('upload_post') }}" method="POST">
+            <div
+              class="row {% if most_recent_image.draft == False %}hidden {% endif %}"
+            >
+              <form
+                class=""
+                action="{{ url_for('upload_post') }}"
+                method="POST"
+              >
                 <!-- POST TITLE LABEL -->
                 {{ post_form.title.label(class="mt-3 mb-2") }}
-                <div id="postTitle" >
+                <div id="postTitle">
                   <!-- INPUT FOR POST TITLE -->
-                  {{ post_form.title(class="w-100 p-1 mb-3") }}</div>
+                  {{ post_form.title(class="w-100 p-1 mb-3") }}
+                </div>
                 <div class="text-end">
                   <!-- SUBMIT BUTTON TO SUBMIT POST -->
                   {{ post_form.submit(class="btn btn-outline-secondary") }}
@@ -91,24 +112,40 @@
     </div>
     <!-- right side -->
     <!-- right side -->
-    <div id="rightColHome" class="col col-6 ms-3 me-3 mw-50">
+    <div class="col col-md-6 rightColHome p-0">
       <!-- New Post -->
       {% for post in all_posts %}
       <!-- image where id == post.pic.id -->
-      <div id="postCards" class="card mb-3 postCards">
-
+      <div class="card mb-3 postCards">
         <div class="d-flex align-items-center postHeader">
-          <div id="dpBoxSmall" class="ms-3 me-3">
+          <div class="ms-3 me-3 dpBoxSmall">
             {% if image %}
-              <img id="dp" src="{{ url_for('static', filename='img/' + image.name) }}" alt="">
+            <img
+              class="dp"
+              src="{{ url_for('static', filename='img/' + image.name) }}"
+              alt=""
+            />
             {% else %}
-              <svg  xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-              </svg>
+            <!-- Default Display Picture -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28"
+              height="28"
+              fill="currentColor"
+              class="bi bi-person-circle"
+              viewBox="0 0 16 16"
+            >
+              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+              <path
+                fill-rule="evenodd"
+                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
+              />
+            </svg>
             {% endif %}
           </div>
-          <h5 class="card-title mb-0">{{ post.content }}</h5>
+          <div class="d-flex align-items-center">
+            <h5 class="card-title mb-0 postTextContent">{{ post.content }}</h5>
+          </div>
         </div>
         <div class="container">
           {% set post_image = Image.query.filter_by(id=post.pic_id).first() %}
@@ -118,7 +155,6 @@
             alt="..."
           />
         </div>
-
         <div class="card-body">
           <div class="d-flex justify-content-end align-content-center">
             {% if post.likes > 0 %}
@@ -126,70 +162,76 @@
             {% endif %}
             <!-- Add like form -->
             <!-- Add like form -->
-            <form action="{{ url_for('post_like') }}" method="post" >
+            <form
+              action="{{ url_for('post_like') }}"
+              method="post"
+              class="h-100 likeButton"
+            >
+              <div>{{ newLikeForm.post_id(value=post.id) }}</div>
               <div>
-                {{ newLikeForm.post_id(value=post.id) }}
+                {{ newLikeForm.submitLike(class="btn btn-outline-secondary h-100
+                likeButton") }}
               </div>
-              <div>
-                {{
-                newLikeForm.submitLike(class="btn btn-outline-secondary") }}
-              </div> {{
-              newLikeForm.hidden_tag() }}
+              {{ newLikeForm.hidden_tag() }}
             </form>
-            <div id="commentDisplay" class="commentDisplayButtons btn btn-outline-secondary ms-3 ">
+            <div
+              id="commentDisplay"
+              class="commentDisplayButtons btn btn-outline-secondary ms-3"
+            >
               Comment
             </div>
           </div>
           <div id="newComForm" class="newComForm hidden">
-              <!-- New Comment Form -->
-              <!-- New Comment Form -->
-              <form action="{{ url_for('post_comment') }}" method="post" >
-                {{ newComForm.post_id(value=post.id) }}
-                <div class="d-flex justify-content-end mt-3 ">
-                  <div class="flex-grow-1">{{ newComForm.comment(class='form-control') }}</div>
-                  <div >{{ newComForm.submit3(class="btn btn-outline-secondary") }}</div>
+            <!-- New Comment Form -->
+            <!-- New Comment Form -->
+            <form action="{{ url_for('post_comment') }}" method="post">
+              {{ newComForm.post_id(value=post.id) }}
+              <div class="d-flex justify-content-end mt-3">
+                <div class="flex-grow-1">
+                  {{ newComForm.comment(class='form-control') }}
                 </div>
-                {{ newComForm.hidden_tag() }}
-              </form>
-            </div>
+                <div>
+                  {{ newComForm.submit3(class="btn btn-outline-secondary") }}
+                </div>
+              </div>
+              {{ newComForm.hidden_tag() }}
+            </form>
+          </div>
           <div class="commentThread">
-            {% for db_comment in recent_comments_reversed  %}
+            {% for db_comment in recent_comments_reversed %}
             <!-- 1. Post comment on post wher post.id and comment.post_id are equivellant -->
-              {% if db_comment.post_id == post.id %}
-                <div class="comments form-control mt-3 p-2">
-                  <div class="d-flex justify-content-between">
-                    <p id="usernameCom" class="m-1">{{ comment_user_mapping[db_comment].username }}:</p>
-                    {% if current_user.username == comment_user_mapping[db_comment].username %}
-                    <form action="{{ url_for('delete_comment') }}" method="POST">
-                      <div>
-                      {{ delete_form.comment_id(value=db_comment.id) }}
-                      </div>
-                      <div>
-                      {{
-                      delete_form.submit(class="btn btn-outline-secondary btn-sm") }}
-                      </div> {{
-                      newLikeForm.hidden_tag() }}
-                    </form>
-                    <!-- Add function to delete comments -->
-                    {% endif %}
+            {% if db_comment.post_id == post.id %}
+            <div class="comments form-control mt-3 p-2">
+              <div class="d-flex justify-content-between">
+                <p id="usernameCom" class="m-1">
+                  {{ comment_user_mapping[db_comment].username }}:
+                </p>
+                {% if current_user.username ==
+                comment_user_mapping[db_comment].username %}
+                <form action="{{ url_for('delete_comment') }}" method="POST">
+                  <div>{{ delete_form.comment_id(value=db_comment.id) }}</div>
+                  <div>
+                    {{ delete_form.submit(class="btn btn-outline-secondary
+                    btn-sm") }}
                   </div>
-                  <!-- Displayed comment -->
-                  <p class="m-1">{{ db_comment.content }}</p>
-                </div>
-              {% endif %}
-            {% endfor %}
+                  {{ newLikeForm.hidden_tag() }}
+                </form>
+                <!-- Add function to delete comments -->
+                {% endif %}
+              </div>
+              <!-- Displayed comment -->
+              <p class="m-1">{{ db_comment.content }}</p>
+            </div>
+            {% endif %} {% endfor %}
             <!-- <div class="d-flex justify-content-end">
-              <p id="allComments" class="mt-3  text-secondary">View all comments</p> -->
-              <!-- Add way to view all comments -->
+                <p id="allComments" class="mt-3  text-secondary">View all comments</p> -->
+            <!-- Add way to view all comments -->
             <!-- </div> -->
-            </div>          
+          </div>
         </div>
       </div>
       {% endfor %}
     </div>
-    <!-- right column -->
   </div>
 </div>
-    
-  {% endblock %}
-</div>
+{% endblock %}

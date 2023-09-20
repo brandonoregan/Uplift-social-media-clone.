@@ -22,7 +22,7 @@ class LoginForm(FlaskForm):
         "Password",
         [validators.InputRequired()],
     )
-    submit = SubmitField("Login")
+    submit = SubmitField("Login", id="submitButton")
 
 
 # Class for the sign up form which inherits the login class
@@ -36,7 +36,7 @@ class SignUpForm(FlaskForm):
         "Password",
         [validators.InputRequired()],
     )
-    submit = SubmitField("Sign up")
+    submit = SubmitField("Sign up", id="submitButton")
 
     def validate_username(self, username):
         existing_user_username = User.query.filter_by(username=username.data).first()
@@ -58,29 +58,29 @@ class SignUpForm(FlaskForm):
 class commentForm(FlaskForm):
     comment = StringField("What do you think?", [validators.InputRequired()])
     post_id = HiddenField(name="post_id")
-    submit3 = SubmitField("Send")
+    submit3 = SubmitField("Send", id="submitButton")
 
 
 class deleteForm(FlaskForm):
     comment_id = HiddenField(name="comment_id")
-    submit = SubmitField("Delete")
+    submit = SubmitField("Delete", id="submitButton")
 
 
 class likeForm(FlaskForm):
     post_id = HiddenField()
-    submitLike = SubmitField("Like")
+    submitLike = SubmitField("Like", id="submitButton")
 
 
 class imageForm(FlaskForm):
     upload = FileField("Upload Picture", validators=[FileRequired()])
-    submit = SubmitField("Upload file")
+    submit = SubmitField("Upload file", id="submitButton")
 
 
 class postForm(FlaskForm):
     title = StringField(
         "Post title:", render_kw={"placeholder": "Tell us about what you're wearing?"}
     )
-    submit = SubmitField("Upload post", validators=[FileRequired()])
+    submit = SubmitField("Upload post", validators=[FileRequired()], id="submitButton")
 
 
 # class editCommentForm(FlaskForm):

@@ -1,6 +1,17 @@
 body {
   background-color: #d3d3d3;
 }
+/* NAV SECTION */
+/* NAV SECTION */
+/* NAV SECTION */
+
+/* Will only aplly inner style from set size and up */
+@media (min-width: 768px) {
+  .innerNavContainer {
+    margin-left: 3rem;
+    margin-right: 3rem;
+  }
+}
 
 .nav-item {
   color: white;
@@ -28,10 +39,6 @@ body {
   width: 100%;
 }
 
-.titleContainer {
-  background-color: white;
-}
-
 .hidden {
   display: none;
 }
@@ -43,10 +50,6 @@ body {
   padding: 3rem;
 }
 
-.postHeader {
-  height: 3.5rem;
-}
-
 .newComFormInput {
   width: 100%;
 }
@@ -54,6 +57,42 @@ body {
 #usernameCom {
   font-weight: bold;
   text-decoration: underline;
+}
+
+/* HOME SECTION */
+/* HOME SECTION */
+/* HOME SECTION */
+/* 
+@media (max-width: 768px) {
+  .homeRowContainer {
+    max-width: 600px;
+  }
+} */
+
+.homeContainer {
+  max-width: 1200px;
+}
+
+/* Left panel container */
+.leftColHome {
+  min-height: 100vh;
+  height: fit-content;
+  overflow-y: auto;
+  background-color: white;
+  /* position: sticky;
+  top: 0; */
+  border-radius: 1rem;
+}
+
+/* right panel container */
+.rightColHome {
+  overflow-y: auto;
+}
+
+.titleContainer {
+  max-width: 100%;
+  border-radius: 0 1rem 1rem 0;
+  background-color: gainsboro;
 }
 
 /* Add hover effect to text */
@@ -68,54 +107,82 @@ body {
   height: 18rem;
 }
 
-#homeDash {
-  background-color: white;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  border-radius: 1rem;
-}
-
-#rightColHome {
-  overflow-y: auto;
-}
-
 .radius {
   border-radius: 1rem;
 }
 
-#postCards {
+.postCards {
   border-radius: 1rem;
 }
 
-#dpBoxSmall {
+/* Display picture in post card */
+.dp {
   height: 35px;
   width: 35px;
+  border-radius: 50%;
+  object-fit: cover;
 }
+/* 
+.dpBoxSmall {
+  height: 35px;
+  width: 35px;
+} */
 
-#dpBoxBig {
+/* Container for big display picture */
+.dpBoxBig {
   height: 135px;
   width: 135px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* HOME SECTION */
-/* HOME SECTION */
-/* HOME SECTION */
+/* Image for big display picture */
+.dpBig {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
 
-#dp {
+/* Post like button */
+.likeButton {
+  min-height: 100%;
+}
+
+/* The welcoming message on the home dash */
+.homeWelcome {
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+/* The posting message on the home dash */
+.postMessage {
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+.postMessageContainer {
   max-width: 100%;
-  border-radius: 1rem;
+  border-radius: 1rem 0 0 1rem;
+  background-color: gainsboro;
 }
 
-#dpBig {
+/* Post header container */
+.postHeader {
+  height: 3.5rem;
   max-width: 100%;
-  border-radius: 1rem;
+  border-radius: 1rem 0 0 1rem;
+  background-color: gainsboro;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+  margin-right: 0px;
 }
 
-#homeWelcome {
-  font-size: 2rem;
-  font-weight: 400;
-  text-decoration: underline;
+/* Text content of the user post */
+.postTextContentContainer {
+  padding-left: 1rem;
 }
 
 #homeMessage {
@@ -127,11 +194,7 @@ body {
   width: 50%;
 }
 
-#postTitle {
-  min-width: 100%;
-}
-
-#newImagePostContainer {
+.newImagePostContainer {
   max-width: 350px;
   height: 350px;
   overflow: hidden;
@@ -140,7 +203,22 @@ body {
   margin-bottom: 1rem;
 }
 
-#newImagePost {
+/* Image in new post form */
+.newPostImage {
+  border-radius: 1rem;
+  object-fit: cover;
+}
+
+/* Container for new post form */
+.postFormContainer {
+  border: 1px solid black;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.newImagePost {
   max-width: 100%;
   max-height: 100%;
 }
@@ -159,19 +237,6 @@ body {
 /* New post modal header */
 #modalHeader {
   margin-left: 0px;
-}
-
-#postFormContainer {
-  border: 1px solid black;
-  border-radius: 1rem;
-  padding: 1rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-}
-
-/* Image in new post form */
-#newPostImage {
-  border-radius: 1rem;
 }
 
 /* Button to display new post form */
