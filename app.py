@@ -67,10 +67,6 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 # Define the path to the 'static' directory relative to the current script
 UPLOAD_FOLDER = os.path.join(current_dir, "static", "img")
 
-# Now, 'static_dir' contains the absolute path to the 'static' directory
-print(UPLOAD_FOLDER)
-print("@@@@@@@@@@")
-
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 
@@ -166,11 +162,12 @@ def render_home():
     all_users = User.query.all()
     all_posts = Post.query.order_by(Post.id.desc()).all()
     all_comments = Comment.query.all()
+    all_images = Image.query.all()
 
     # query the database for particular responses
     recent_comments = Comment.query.order_by(desc(Comment.timestamp)).all()
     recent_comments_reversed = list(reversed(recent_comments))
-    image = Image.query.filter_by(id=current_user.pic_id).first()
+    user_dp = Image.query.filter_by(id=current_user.pic_id).first()
     most_recent_image = db.session.query(Image).order_by(desc(Image.id)).first()
     comment_user_mapping = {}
     now = datetime.utcnow()
@@ -189,7 +186,7 @@ def render_home():
         all_comments=all_comments,
         recent_comments_reversed=recent_comments_reversed,
         comment_user_mapping=comment_user_mapping,
-        image=image,
+        user_dp=user_dp,
         dp_form=dp_form,
         post_form=post_form,
         most_recent_image=most_recent_image,
@@ -197,6 +194,7 @@ def render_home():
         Image=Image,
         delete_form=delete_form,
         now=now,
+        all_images=all_images,
     )
 
 
@@ -231,16 +229,17 @@ def upload_post():
 @app.route("/home/delete", methods=["POST"])
 @login_required
 def delete_comment():
-    newDeleteForm = deleteForm()
-
-    if request.method == "POST" and newDeleteForm.validate_on_submit():
-        comment = Comment.query.get(comment_id)
+    if request.method == "POST":
+        db_comment_id = request.form.get("comment_id")
+        comment = Comment.query.get(db_comment_id)
 
         if comment and comment.user_id == current_user.id:
             db.session.delete(comment)
             db.session.commit()
 
             return redirect(url_for("render_home"))
+
+    return redirect(url_for("render_home"))
 
 
 @app.route("/home/comment", methods=["POST"])
@@ -324,7 +323,7 @@ def render_profile():
     """Render specified page for GET request"""
     dp_form = imageForm()
 
-    image = Image.query.filter_by(id=current_user.pic_id).first()
+    user_dp = Image.query.filter_by(id=current_user.pic_id).first()
     username = current_user.username
 
     filtered_posts = Post.query.filter_by(user_id=current_user.id).all()
@@ -335,7 +334,7 @@ def render_profile():
         "profile.html",
         dp_form=dp_form,
         username=username,
-        image=image,
+        user_dp=user_dp,
         filtered_posts=filtered_posts,
         Image=Image,
     )

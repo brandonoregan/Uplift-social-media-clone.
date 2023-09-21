@@ -3,10 +3,10 @@
   <div class="row">
     <div class="col heroLeftCol">
       <div class="row d-flex justify-content-center">
-        {% if image %}
+        {% if user_dp %}
         <img
           class="shadow profileDp"
-          src="{{ url_for('static', filename='img/' + image.name) }}"
+          src="{{ url_for('static', filename='img/' + user_dp.name) }}"
           alt="Image"
         />
         {% else %}
@@ -65,7 +65,7 @@
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog">
+          <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
                 <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">

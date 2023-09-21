@@ -43,3 +43,27 @@ commentDisplayButtons.forEach(function (button) {
 //     }
 //   });
 // });
+
+// Ensure model stays open after page refresh
+// Ensure model stays open after page refresh
+// Check if a modal open state is stored in local storage
+// const modalOpen = localStorage.getItem("modalOpen");
+
+// // If a modal open state exists and it's 'true', open the modal
+// if (modalOpen === "true") {
+//   const modal = new bootstrap.Modal(document.getElementById("exampleModal"));
+//   modal.show();
+// }
+
+// // Listen for modal show/hide events and update local storage accordingly
+// document
+//   .getElementById("exampleModal")
+//   .addEventListener("show.bs.modal", function () {
+//     localStorage.setItem("modalOpen", "true");
+//   });
+
+// document
+//   .getElementById("exampleModal")
+//   .addEventListener("hide.bs.modal", function () {
+//     localStorage.setItem("modalOpen", "false");
+//   });

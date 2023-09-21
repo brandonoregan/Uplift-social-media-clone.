@@ -64,7 +64,7 @@ class commentForm(FlaskForm):
 
 
 class deleteForm(FlaskForm):
-    comment_id = HiddenField(name="comment_id")
+    comment_id = HiddenField("comment_id")
     submit = SubmitField("Delete", id="submitButton")
 
 
