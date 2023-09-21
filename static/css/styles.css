@@ -202,6 +202,13 @@ body {
   font-family: var(--roboto);
 }
 
+.homeWelcomeContainer {
+  max-width: 100%;
+  border-radius: 1rem;
+  background-color: var(--yellow-3);
+  height: 3.5rem;
+}
+
 /* The posting message on the home dash */
 .postMessage {
   font-size: 1.5em;
@@ -359,10 +366,12 @@ body {
 
 .signUpHeroText {
   font-family: var(--roboto);
+  min-width: 350px;
 }
 
 .signUpCard {
   border-radius: 1rem;
+  min-width: 350px;
 }
 
 .signUpContainer {
@@ -433,4 +442,10 @@ body {
 .loginUpHeroText {
   font-family: var(--roboto);
   font-size: 5rem;
+}
+
+@media (max-width: 768px) {
+  .loginUpHeroText {
+    font-size: 3rem;
+  }
 }

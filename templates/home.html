@@ -1,14 +1,14 @@
 {% extends 'base.html' %} {% block title %}{% endblock %} {% block content %}
-<div class="container mt-3 homeContainer">
+<div class="container mt-md-0 mt-3 homeContainer">
   <div
     class="row d-flex justify-content-center me-3 ms-3 flex-column flex-md-row homeRowContainer"
   >
     <!-- left side -->
     <!-- left side -->
     <div
-      class="col col-md-5 position-sticky sticky-md-top mb-3 mb-md-0 mx-md-3 shadow leftColHome"
+      class="col col-md-5 position-sticky sticky-md-top mb-3 mx-md-3 shadow leftColHome"
     >
-      <div class="row d-flex align-items-center mt-3 mb-3 titleContainer">
+      <div class="row d-flex align-items-center mb-3 titleContainer">
         <div class="dpBoxBig" class="col col-4">
           {% if user_dp %}
           <img
@@ -33,12 +33,14 @@
           </svg>
           {% endif %}
         </div>
-        <div class="col d-flex align-items-center">
-          <p class="homeWelcome text-center">
+        <div
+          class="col d-flex align-items-center text-center homeWelcomeContainer"
+        >
+          <p class="homeWelcome text-center mb-0">
             <!-- Dynamically loads greeting depending on the time of day -->
             {% set hour = now.hour %} {% if hour >= 0 and hour < 12 %} Good
-            morning! {% else %} Good Evening {% endif %} {{
-            current_user.username}}
+            morning! {% elif hour > 12 and hour < 17 %} Good afternoon {% else
+            %} Good evening {% endif %} {{ current_user.username}}
           </p>
         </div>
       </div>

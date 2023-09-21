@@ -29,19 +29,32 @@ commentDisplayButtons.forEach(function (button) {
 //   let isSubmitting = localStorage.getItem("isSubmitting") === "true";
 
 //   if (isSubmitting) {
-//     submitButton.disabled = true;
+//     disableSubmitButton();
 //   }
 
 //   submitButton.addEventListener("click", function (e) {
 //     if (isSubmitting) {
 //       e.preventDefault(); // Prevent multiple form submissions
 //     } else {
-//       isSubmitting = true;
-//       submitButton.disabled = true; // Disable the button
+//       disableSubmitButton();
+//       setTimeout(enableSubmitButton, 5000);
 
 //       localStorage.setItem("isSubmitting", "true");
 //     }
 //   });
+
+//   function disableSubmitButton() {
+//     isSubmitting = true;
+//     submitButton.disabled = true;
+//     localStorage.setItem("isSubmitting", "true");
+//   }
+
+//   function enableSubmitButton() {
+//     isSubmitting = false;
+//     submitButton.disabled = false;
+//     localStorage.setItem("isSubmitting", "false");
+//   }
+//   console.log(isSubmitting);
 // });
 
 // Ensure model stays open after page refresh
@@ -67,3 +80,16 @@ commentDisplayButtons.forEach(function (button) {
 //   .addEventListener("hide.bs.modal", function () {
 //     localStorage.setItem("modalOpen", "false");
 //   });
+
+// Get the scroll position when the page loads or is refreshed
+window.addEventListener("beforeunload", function () {
+  localStorage.setItem("scrollPosition", window.scrollY);
+});
+
+// Set the scroll position to the stored value when the page loads
+window.addEventListener("load", function () {
+  const scrollPosition = localStorage.getItem("scrollPosition");
+  if (scrollPosition) {
+    window.scrollTo(0, parseInt(scrollPosition));
+  }
+});
