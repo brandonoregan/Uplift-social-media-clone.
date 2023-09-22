@@ -34,6 +34,7 @@ body {
 /* NAV SECTION */
 /* NAV SECTION */
 
+/* nav bar on every page */
 .navbar {
   background-color: var(--yellow-3);
   border-radius: 0rem 0rem 1rem 1rem;

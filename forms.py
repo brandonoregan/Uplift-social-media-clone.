@@ -82,10 +82,4 @@ class postForm(FlaskForm):
     title = StringField(
         "Post title:", render_kw={"placeholder": "Tell us about what you're wearing?"}
     )
-    submit = SubmitField("Upload post", validators=[FileRequired()], id="submitButton")
-
-
-# class editCommentForm(FlaskForm):
-#     submitEdit = SubmitField('Edit Comment')
-#     post_id = HiddenField()
-#     edit = StringField([validators.InputRequired()])
+    submit = SubmitField("Upload post", id="submitButton")
