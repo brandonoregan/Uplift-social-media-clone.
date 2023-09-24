@@ -38,7 +38,8 @@
             <div class="mb-3">{{ form.username(class="loginInput")}}</div>
             <div class="mb-3">{{ form.password(class="loginInput") }}</div>
             <div class="mb-3">
-              {{ form.submit(class="customButtomSignUp customButton") }}
+              {{ form.submit(class="customButtomSignUp customButton
+              submitButton") }}
             </div>
             <!-- Handle wtforms validation errors -->
             {% if form.errors %} {% for field, errors in form.errors.items() %}

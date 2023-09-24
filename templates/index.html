@@ -56,7 +56,8 @@
             <div class="mb-3">{{ form.username(class="signUpInput") }}</div>
             <div class="mb-3">{{ form.password(class="signUpInput") }}</div>
 
-            {{ form.submit(class="customButton customButtomSignUp") }}
+            {{ form.submit(class="customButton customButtomSignUp submitButton")
+            }}
             <!-- Handle validation form errors -->
             {% if form.errors %} {% for field, errors in form.errors.items() %}
             {% for error in errors %}

@@ -73,12 +73,12 @@ def resetFormPost(Image, db, desc, post_form):
 
 
 # Check user credentials and login user
-def loginUser(User, form, bcrypt, login_user, redirect, url_for, flash):
+def loginUser(User, form, bcrypt, login_user, flash):
     user = User.query.filter_by(username=form.username.data).first()
     if user:
         if bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
-            return redirect(url_for("render_home"))
+
         else:
             flash("Incorrect username or password.")
     else:

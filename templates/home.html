@@ -78,12 +78,12 @@
                 action="{{ url_for('upload_post_img') }}"
                 method="post"
                 enctype="multipart/form-data"
-                class="d-flex justify-content-center"
+                class="d-flex justify-content-center postFormOne"
               >
                 <!-- INPUT FILE FORM -->
                 {{ dp_form.upload() }}
                 <!-- SUBMIT BUTTON FOR UPLOADING IMAGE -->
-                {{ dp_form.submit }}
+                {{ dp_form.submit(class="submitButton") }}
               </form>
             </div>
             <!-- FORM FOR UPLOADING POST -->
@@ -92,7 +92,7 @@
               class="row {% if most_recent_image.draft == False %}hidden {% endif %}"
             >
               <form
-                class=""
+                class="postFormTwo"
                 action="{{ url_for('upload_post') }}"
                 method="POST"
               >
@@ -104,7 +104,8 @@
                 </div>
                 <div class="text-end">
                   <!-- SUBMIT BUTTON TO SUBMIT POST -->
-                  {{ post_form.submit(class="btn btn-outline-secondary") }}
+                  {{ post_form.submit(class="btn btn-outline-secondary
+                  submitButton") }}
                 </div>
               </form>
             </div>
@@ -182,7 +183,7 @@
               <div>{{ newLikeForm.post_id(value=post.id) }}</div>
               <div>
                 {{ newLikeForm.submitLike(class="btn btn-outline-secondary h-100
-                likeButton") }}
+                likeButton submitButton") }}
               </div>
               {{ newLikeForm.hidden_tag() }}
             </form>
@@ -203,7 +204,8 @@
                   {{ newComForm.comment(class='form-control') }}
                 </div>
                 <div>
-                  {{ newComForm.submit3(class="btn btn-outline-secondary") }}
+                  {{ newComForm.submit3(class="btn btn-outline-secondary
+                  submitButton") }}
                 </div>
               </div>
               {{ newComForm.hidden_tag() }}
@@ -229,7 +231,7 @@
                   <!-- <div>{{ delete_form.comment_id(value=db_comment.id) }}</div> -->
                   <div>
                     {{ delete_form.submit(class="btn btn-outline-secondary
-                    btn-sm") }}
+                    btn-sm submitButton") }}
                   </div>
                   <!-- {{ newLikeForm.hidden_tag() }} -->
                 </form>

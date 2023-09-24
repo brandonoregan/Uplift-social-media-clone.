@@ -43,5 +43,4 @@ class Image(db.Model):
     name = db.Column(db.Text, nullable=False)
     mimetype = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-    post_id = db.Column(db.Integer)
     draft = db.Column(db.Boolean, default=False)

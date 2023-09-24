@@ -144,9 +144,10 @@ def login():
 
     if form.validate_on_submit():
         # Check user credentials and login user
-        loginUser(User, form, bcrypt, login_user, redirect, url_for, flash)
-
-    return render_template("login.html", form=form)
+        loginUser(User, form, bcrypt, login_user, flash)
+        return redirect(url_for("render_home"))
+    else:
+        return render_template("login.html", form=form)
 
 
 @app.route("/home", methods=["GET"])
@@ -238,7 +239,7 @@ def post_comment():
 
     if request.method == "POST" and newComForm.validate_on_submit():
         # Add comment to UI post and db
-        addComment(datetime, Comment, current_user, request, newComForm, db, desc)
+        addComment(datetime, Comment, current_user, request, newComForm, db)
 
     return redirect(url_for("render_home"))
 

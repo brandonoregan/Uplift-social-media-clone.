@@ -20,42 +20,61 @@ commentDisplayButtons.forEach(function (button) {
   });
 });
 
-// // Prevent forms submitting multiple times with multiple clicks
-// document.addEventListener("DOMContentLoaded", function () {
-//   console.log("JavaScript executed");
-//   const submitButton = document.getElementById("submitButton");
+// Prevent forms submitting multiple times with multiple clicks
+document.addEventListener("DOMContentLoaded", function () {
+  console.log("JavaScript executed");
 
-//   // Get isSubmitting from local storage
-//   let isSubmitting = localStorage.getItem("isSubmitting") === "true";
+  // select all elemts with the class submitButton
+  const submitButtons = document.querySelectorAll(".submitButton");
 
-//   if (isSubmitting) {
-//     disableSubmitButton();
-//   }
+  // Get isSubmitting from local storage
+  let isSubmitting = localStorage.getItem("isSubmitting") === "true";
 
-//   submitButton.addEventListener("click", function (e) {
-//     if (isSubmitting) {
-//       e.preventDefault(); // Prevent multiple form submissions
-//     } else {
-//       disableSubmitButton();
-//       setTimeout(enableSubmitButton, 5000);
+  // Flag to indicate whether the form is currently loading
+  let isFormLoading = false;
 
-//       localStorage.setItem("isSubmitting", "true");
-//     }
-//   });
+  if (isSubmitting) {
+    console.log("Top:", isSubmitting);
+    disableSubmitButton(submitButtons);
+  }
 
-//   function disableSubmitButton() {
-//     isSubmitting = true;
-//     submitButton.disabled = true;
-//     localStorage.setItem("isSubmitting", "true");
-//   }
+  // loop through all submitButtons instances
+  submitButtons.forEach(function (submitButton) {
+    // attach an event listener to each button and capture the event
+    submitButton.addEventListener("click", function (e) {
+      // identify the form where the submitButton was clicked
+      const form = submitButton.closest("form");
+      // check is the form is loading
+      if (isFormLoading) {
+        console.log("isFormLoading:", isFormLoading);
+        e.preventDefault(); // Prevent multiple form submissions
+        disableSubmitButton(submitButtons);
+      } else {
+        console.log("Second", "isFormLoading:", isFormLoading);
+        form.addEventListener("load", function () {
+          enableSubmitButton(submitButtons);
+        });
+        isFormLoading = true;
+      }
+    });
+  });
 
-//   function enableSubmitButton() {
-//     isSubmitting = false;
-//     submitButton.disabled = false;
-//     localStorage.setItem("isSubmitting", "false");
-//   }
-//   console.log(isSubmitting);
-// });
+  function disableSubmitButton(submitButtons) {
+    isSubmitting = true;
+    submitButtons.disabled = true;
+    localStorage.setItem("isSubmitting", "true");
+    console.log("Disabled");
+  }
+
+  function enableSubmitButton(submitButtons) {
+    isSubmitting = false;
+    submitButtons.disabled = false;
+    localStorage.setItem("isSubmitting", "false");
+    console.log("Enabled");
+  }
+
+  console.log("Bottom:", isSubmitting);
+});
 
 // Ensure model stays open after page refresh
 // Ensure model stays open after page refresh
@@ -81,15 +100,50 @@ commentDisplayButtons.forEach(function (button) {
 //     localStorage.setItem("modalOpen", "false");
 //   });
 
-// Get the scroll position when the page loads or is refreshed
-window.addEventListener("beforeunload", function () {
-  localStorage.setItem("scrollPosition", window.scrollY);
-});
+if (window.location.pathname === "/home") {
+  // Event listener for form submissions
+  document.addEventListener("DOMContentLoaded", function () {
+    const postFormOne = document.querySelector(".postFormOne");
+    const postFormTwo = document.querySelector(".postFormTwo");
 
-// Set the scroll position to the stored value when the page loads
-window.addEventListener("load", function () {
-  const scrollPosition = localStorage.getItem("scrollPosition");
-  if (scrollPosition) {
-    window.scrollTo(0, parseInt(scrollPosition));
-  }
-});
+    // Event listener for form 1 submission
+    postFormOne.addEventListener("submit", function () {
+      localStorage.setItem("scrollPosition", "form1");
+    });
+
+    // Event listener for form 2 submission
+    postFormTwo.addEventListener("submit", function () {
+      localStorage.setItem("scrollPosition", "form2");
+    });
+  });
+
+  // Get the scroll position when the page loads or is refreshed
+  window.addEventListener("beforeunload", function () {
+    // Check if the scrollPosition was set by a form submission
+    const scrollPosition = localStorage.getItem("scrollPosition");
+    if (scrollPosition !== "form1" && scrollPosition !== "form2") {
+      localStorage.setItem("scrollPosition", window.scrollY);
+    }
+  });
+
+  // Set the scroll position or scroll to the top based on the scrollPosition flag
+  window.addEventListener("load", function () {
+    const scrollPosition = localStorage.getItem("scrollPosition");
+
+    if (scrollPosition === "form1" || scrollPosition === "form2") {
+      // Scroll to the top if a form was submitted
+      window.scrollTo(0, 0);
+      localStorage.setItem("scrollPosition", "");
+    } else {
+      // Restore the scroll position if no form was submitted
+      window.scrollTo(0, parseInt(scrollPosition));
+      localStorage.setItem("scrollPosition", "");
+    }
+  });
+} else {
+  // Reset the scrollPosition when the home page is left
+  window.addEventListener("beforeunload", function (e) {
+    // Set the local storage variable here
+    localStorage.setItem("scrollPosition", "form1");
+  });
+}
