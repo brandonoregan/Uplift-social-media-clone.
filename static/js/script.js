@@ -3,6 +3,10 @@
 const commentDisplayButtons = document.querySelectorAll(
   ".commentDisplayButtons"
 );
+const hideComments = document.getElementById("hideComments");
+const viewComments = document.getElementById("viewComments");
+const commentThreadLong = document.querySelector(".commentThreadLong");
+const commentThreadShort = document.querySelector(".commentThreadShort");
 
 // Toggle hidden on all new com buttons
 commentDisplayButtons.forEach(function (button) {
@@ -147,3 +151,13 @@ if (window.location.pathname === "/home") {
     localStorage.setItem("scrollPosition", "form1");
   });
 }
+
+hideComments.addEventListener("click", function () {
+  commentThreadLong.classList.toggle("hidden");
+  commentThreadShort.classList.toggle("hidden");
+});
+
+viewComments.addEventListener("click", function () {
+  commentThreadLong.classList.toggle("hidden");
+  commentThreadShort.classList.toggle("hidden");
+});

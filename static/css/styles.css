@@ -145,7 +145,8 @@ body {
 }
 
 /* Add hover effect to text */
-#allComments:hover {
+#hideComments:hover,
+#viewComments:hover {
   cursor: pointer;
   text-decoration: underline;
 }
@@ -328,7 +329,7 @@ body {
 }
 
 .usernameTarget {
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 
 /* The hero section */

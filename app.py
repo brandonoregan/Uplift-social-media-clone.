@@ -165,6 +165,7 @@ def render_home():
     all_users = User.query.all()
     all_posts = Post.query.order_by(Post.id.desc()).all()
     all_comments = Comment.query.all()
+    all_comments_reversed = list(reversed(all_comments))
     all_images = Image.query.all()
     recent_comments = Comment.query.order_by(desc(Comment.timestamp)).all()
     recent_comments_reversed = list(reversed(recent_comments))
@@ -199,6 +200,7 @@ def render_home():
         delete_form=delete_form,
         now=now,
         all_images=all_images,
+        all_comments_reversed=all_comments_reversed,
     )
 
 
