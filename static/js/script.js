@@ -5,6 +5,7 @@ const commentDisplayButtons = document.querySelectorAll(
 );
 const backToTop = document.querySelector(".backToTop");
 
+// Create click events scrolling page back to top
 backToTop.addEventListener("click", function () {
   window.scrollTo({
     top: 0,
@@ -12,7 +13,7 @@ backToTop.addEventListener("click", function () {
   });
 });
 
-// Toggle hidden on all new com buttons
+// Toggle hidden on all comment buttons
 commentDisplayButtons.forEach(function (button) {
   button.addEventListener("click", function () {
     // Find the closest parent element with the class "postCards"
@@ -30,7 +31,7 @@ commentDisplayButtons.forEach(function (button) {
 
 // Prevent forms submitting multiple times with multiple clicks
 document.addEventListener("DOMContentLoaded", function () {
-  // select all elemts with the class submitButton
+  // select all elements with the class submitButton
   const submitButtons = document.querySelectorAll(".submitButton");
 
   // Get isSubmitting from local storage
@@ -40,7 +41,6 @@ document.addEventListener("DOMContentLoaded", function () {
   let isFormLoading = false;
 
   if (isSubmitting) {
-    console.log("Top:", isSubmitting);
     disableSubmitButton(submitButtons);
   }
 
@@ -52,7 +52,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const form = submitButton.closest("form");
       // check is the form is loading
       if (isFormLoading) {
-        console.log("isFormLoading:", isFormLoading);
         e.preventDefault(); // Prevent multiple form submissions
         disableSubmitButton(submitButtons);
       } else {
@@ -65,47 +64,22 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  // Disable specified buttons and store state in local storage
   function disableSubmitButton(submitButtons) {
     isSubmitting = true;
     submitButtons.disabled = true;
     localStorage.setItem("isSubmitting", "true");
-    console.log("Disabled");
   }
 
+  // Enable specified buttons and store state in local storage
   function enableSubmitButton(submitButtons) {
     isSubmitting = false;
     submitButtons.disabled = false;
     localStorage.setItem("isSubmitting", "false");
-    console.log("Enabled");
   }
-
-  console.log("Bottom:", isSubmitting);
 });
 
-// Ensure model stays open after page refresh
-// Ensure model stays open after page refresh
-// Check if a modal open state is stored in local storage
-// const modalOpen = localStorage.getItem("modalOpen");
-
-// // If a modal open state exists and it's 'true', open the modal
-// if (modalOpen === "true") {
-//   const modal = new bootstrap.Modal(document.getElementById("exampleModal"));
-//   modal.show();
-// }
-
-// // Listen for modal show/hide events and update local storage accordingly
-// document
-//   .getElementById("exampleModal")
-//   .addEventListener("show.bs.modal", function () {
-//     localStorage.setItem("modalOpen", "true");
-//   });
-
-// document
-//   .getElementById("exampleModal")
-//   .addEventListener("hide.bs.modal", function () {
-//     localStorage.setItem("modalOpen", "false");
-//   });
-
+// Check where form submission came from and handle scrolling action accordlingly
 if (window.location.pathname === "/home") {
   // Event listener for form submissions
   document.addEventListener("DOMContentLoaded", function () {
@@ -153,58 +127,3 @@ if (window.location.pathname === "/home") {
     localStorage.setItem("scrollPosition", "form1");
   });
 }
-
-// const hideComments = document.getElementById("hideComments");
-// const viewComments = document.getElementById("viewComments");
-
-// document.addEventListener("DOMContentLoaded", function () {
-//   const viewCommentButtons = document.querySelectorAll(".viewComments");
-//   const hideCommentButtons = document.querySelectorAll(".hideComments");
-//   const commentThreadLongs = document.querySelectorAll(".commentThreadLong");
-//   const commentThreadShorts = document.querySelectorAll(".commentThreadShort");
-
-//   viewCommentButtons.forEach(function (viewButton) {
-//     viewButton.addEventListener("click", function (e) {
-//       commentThreadLongs.forEach(function (button) {
-//         button.classList.toggle("hidden");
-//       });
-//       console.log("View Clicked ");
-//     });
-//   });
-
-//   hideCommentButtons.forEach(function (hideButton) {
-//     hideButton.addEventListener("click", function (e) {
-//       commentThreadShorts.forEach(function (button) {
-//         button.classList.toggle("hidden");
-//       });
-//       console.log("Hide Clicked");
-//     });
-//   });
-// });
-
-// const postCards = document.querySelectorAll(".postCards");
-// const commentThreadLong = document.querySelector(".commentThreadLong");
-
-// document.addEventListener("DOMContentLoaded", function () {
-//   commentThreadLong.classList.add("hidden");
-// });
-
-// postCards.forEach(function (post) {
-//   post.addEventListener("click", function (e) {
-//     const closestViewButton = e.target.closest(".viewComments");
-//     const closestHideButton = e.target.closest(".hideComments");
-//     const closestShortThread = e.target.closest(".commentThreadShort");
-//     const closestLongThread = e.target.closest(".commentThreadLong");
-
-//     if (closestViewButton) {
-//       closestShortThread.classList.toggle("hidden");
-//       commentThreadLong.classList.toggle("hidden");
-//       console.log("Bingo");
-//     } else if (closestHideButton) {
-//       closestShortThread.classList.toggle("hidden");
-//       commentThreadLong.classList.toggle("hidden");
-//     } else {
-//       console.log("WHOOOPS");
-//     }
-//   });
-// });

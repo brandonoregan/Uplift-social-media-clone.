@@ -1,4 +1,5 @@
-{% extends 'base.html' %} {% block content %} {% include 'flash_errors.html' %}
+{% extends 'base.html' %}{% block title %}Login{% endblock %} {% block content
+%} {% include 'flash_errors.html' %}
 <div class="container">
   <div class="row d-flex justify-content-center pt-3 pb-3">
     <div class="col">
@@ -33,7 +34,6 @@
             method="post"
             class="text-center"
           >
-            <!-- REFACTOR this code can be looped through to create each field and placed into a seperate html file and broguth back with the inlcudes jinja template -->
             {{ form.csrf_token }}
             <div class="mb-3">{{ form.username(class="loginInput")}}</div>
             <div class="mb-3">{{ form.password(class="loginInput") }}</div>

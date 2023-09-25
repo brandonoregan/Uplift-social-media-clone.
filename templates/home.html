@@ -1,21 +1,24 @@
-{% extends 'base.html' %} {% block title %}{% endblock %} {% block content %}
+{% extends 'base.html' %} {% block title %}Home{% endblock %} {% block content
+%}
 <div class="container mt-md-0 mt-3 homeContainer">
   <div
     class="row d-flex justify-content-center me-3 ms-3 flex-column flex-md-row homeRowContainer"
   >
-    <!-- left side -->
-    <!-- left side -->
+    <!-- left side of home page -->
+    <!-- left side of home page -->
     <div
       class="col col-md-5 position-sticky sticky-md-top mb-3 mx-md-3 shadow leftColHome"
     >
       <div class="row d-flex align-items-center mb-3 titleContainer">
         <div class="dpBoxBig" class="col col-4">
+          <!-- If user has a display picture -->
           {% if user_dp %}
           <img
             class="shadow dpBig"
             src="{{ url_for('static', filename='img/' + user_dp.name) }}"
             alt=""
           />
+          <!-- If user does not have a display picture -->
           {% else %}
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +58,7 @@
         <div class="col mt-auto mb-auto">
           <div class="postFormContainer">
             <div class="row bg-light text-center p-0 newImagePostContainer">
-              <!-- FIND THE MOST RECENTLY SAVED IMAGE TO DB AND DISPLAY -->
+              <!-- Find the most recently uploaded image to the db and display if it meets the condition  -->
               {% if most_recent_image.draft == True %}
               <img
                 id=""
@@ -63,6 +66,7 @@
                 src="{{ url_for('static', filename='img/' + most_recent_image.name) }}"
                 alt=""
               />
+              <!-- If the condition is not met use this image -->
               {% else %}
               <img
                 class="newPostImage"
@@ -72,8 +76,7 @@
               {% endif %}
             </div>
             <div class="row">
-              <!-- FORM FOR UPLOADING IMAGE TO POST  -->
-              <!-- FORM FOR UPLOADING IMAGE TO POST  -->
+              <!-- Form for uploading image to post -->
               <form
                 action="{{ url_for('upload_post_img') }}"
                 method="post"
@@ -116,9 +119,8 @@
     <!-- right side -->
     <!-- right side -->
     <div class="col col-md-6 rightColHome p-0">
-      <!-- New Post -->
+      <!-- For each post stored in the database execute the following -->
       {% for post in all_posts %}
-      <!-- image where id == post.pic.id -->
       <div class="card mb-3 postCards">
         <div class="d-flex align-items-center postHeader">
           <div class="ms-3 me-3 dpBoxSmall">
@@ -161,6 +163,7 @@
           </div>
         </div>
         <div class="container">
+          <!-- Create variable storing the first image where the id and post.pic_id match -->
           {% set post_image = Image.query.filter_by(id=post.pic_id).first() %}
           <img
             src="{{ url_for('static', filename='img/' + post_image.name) }}"
@@ -170,10 +173,10 @@
         </div>
         <div class="card-body">
           <div class="d-flex justify-content-end align-content-center">
+            <!-- If there is a like in the post table display the like count in the UI-->
             {% if post.likes > 0 %}
             <p class="me-auto ms-3">Likes: {{ post.likes }}</p>
             {% endif %}
-            <!-- Add like form -->
             <!-- Add like form -->
             <form
               action="{{ url_for('post_like') }}"
@@ -254,7 +257,7 @@
           <div class="commentThreadLong">
             <!-- Add a hidden element to store the value -->
             {% for db_comment in all_comments_reversed %}
-            <!-- 1. Post comment on post wher post.id and comment.post_id are equivellant -->
+            <!-- Post comment on post where post.id and comment.post_id are equivellant -->
             {% if db_comment.post_id == post.id %}
             <div class="comments form-control mt-3 p-2">
               <div class="d-flex justify-content-between">

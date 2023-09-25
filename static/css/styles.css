@@ -30,6 +30,24 @@ body {
   color: white;
 }
 
+/* Hides class */
+.hidden {
+  display: none;
+}
+
+/* Rounds corners of divs */
+.radius {
+  border-radius: 1rem;
+}
+
+/* Create white background div in similar style */
+.backgroundWhite {
+  background-color: white;
+  border: 2px solid black;
+  min-width: 100%;
+  padding: 3rem;
+}
+
 /* NAV SECTION */
 /* NAV SECTION */
 /* NAV SECTION */
@@ -43,73 +61,26 @@ body {
   z-index: 9999;
 }
 
+/* website logo/brand in navbar */
 .navbar-brand {
   font-weight: 700;
   font-family: var(--roboto);
 }
 
+/* burger menu */
 .navbar-toggler {
   border: 1px solid black;
-}
-
-/* Will only aplly inner style from set size and up */
-@media (min-width: 768px) {
-  .innerNavContainer {
-    margin-left: 3rem;
-    margin-right: 3rem;
-  }
-}
-
-.nav-item {
-  /* color: white; */
 }
 
 .whiteText {
   color: black;
 }
 
-.newsFeedImg {
-  max-width: 100%;
-  max-height: 100%;
-}
-
-.newsFeedImgContainer {
-  height: 18rem;
-  width: 100%;
-}
-
-.postContainer {
-  background-color: white;
-}
-
-.commentBox {
-  width: 100%;
-}
-
-.hidden {
-  display: none;
-}
-
-.backgroundWhite {
-  background-color: white;
-  border: 2px solid black;
-  min-width: 100%;
-  padding: 3rem;
-}
-
-.newComFormInput {
-  width: 100%;
-}
-
-#usernameCom {
-  font-weight: bold;
-  text-decoration: underline;
-}
-
 /* HOME SECTION */
 /* HOME SECTION */
 /* HOME SECTION */
 
+/* Container around entire home screen */
 .homeContainer {
   max-width: 1200px;
 }
@@ -120,10 +91,7 @@ body {
   height: fit-content;
   overflow-y: auto;
   background-color: white;
-  /* /* position: sticky; */
-
   border-radius: 1rem;
-  /* border: 1px solid grey; */
 }
 
 /* right panel container */
@@ -131,36 +99,39 @@ body {
   overflow-y: auto;
 }
 
+/* Container for title on left column home page */
 .titleContainer {
   max-width: 100%;
   border-radius: 0rem 1rem 1rem 0rem;
-  /* background-color: var(--yellow-3); */
-  /* border: 1px solid grey; */
 }
 
+/* Image in post cards */
+.newsFeedImg {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Container fo image in post cards */
+.newsFeedImgContainer {
+  height: 18rem;
+  width: 100%;
+}
+
+/* Container for each post */
+.postContainer {
+  background-color: white;
+}
+
+/* Styling username for each comment */
+#usernameCom {
+  font-weight: bold;
+  text-decoration: underline;
+}
 /* Add hover effect to text */
 #hideComments:hover,
 #viewComments:hover {
   cursor: pointer;
   text-decoration: underline;
-}
-
-.radius {
-  border-radius: 1rem;
-}
-
-/* Will only aplly inner style from set size and up */
-@media (min-width: 768px) {
-  .backToTop {
-    position: fixed;
-    z-index: 999999;
-    bottom: 10px;
-    right: 20px;
-  }
-}
-
-.backToTop:hover {
-  cursor: pointer;
 }
 
 /* The card container that hold each post */
@@ -176,13 +147,8 @@ body {
   object-fit: cover;
   border: 1px solid grey;
 }
-/* 
-.dpBoxSmall {
-  height: 35px;
-  width: 35px;
-} */
 
-/* Container for big display picture */
+/* Container for big display picture on home screen */
 .dpBoxBig {
   height: 135px;
   width: 135px;
@@ -248,15 +214,6 @@ body {
   padding-left: 1rem;
 }
 
-#homeMessage {
-  font-size: 1.5rem;
-  font-weight: 400;
-}
-
-#dpButton {
-  width: 50%;
-}
-
 .newImagePostContainer {
   max-width: 350px;
   height: 350px;
@@ -286,37 +243,21 @@ body {
   max-height: 100%;
 }
 
-/*  ul for the people you may know section */
-#peopleList {
-  list-style-type: none;
-}
-
-/* li for the people you may know section */
-#otherUsers {
-  border: 1px solid black;
-  /* border-radius: 1rem; */
-}
-
-/* New post modal header */
-#modalHeader {
-  margin-left: 0px;
-}
-
-/* Button to display new post form */
-#showPostFormButton {
-  max-width: 80%;
-  margin: auto;
-  margin-bottom: 1rem;
-}
-
 /* PROFILE SECION */
 /* PROFILE SECION */
 /* PROFILE SECION */
 
+/* Button for creating display picture */
+#dpButton {
+  width: 50%;
+}
+
+/* Container left side hero section */
 .heroLeftCol {
   min-width: 350px;
 }
 
+/* Container right side hero section */
 .heroRightCol {
   min-width: 350px;
 }
@@ -334,10 +275,6 @@ body {
 /* The main quote for the profile section */
 .profileHeroQuote {
   font-family: var(--roboto);
-}
-
-.usernameTarget {
-  /* text-decoration: underline; */
 }
 
 /* The hero section */
@@ -374,11 +311,13 @@ body {
 /* Sign up section */
 /* Sign up section */
 
+/* Main hero text on page */
 .signUpHeroText {
   font-family: var(--roboto);
   min-width: 350px;
 }
 
+/* Sign up form/card */
 .signUpCard {
   border-radius: 1rem;
   min-width: 350px;
@@ -388,6 +327,7 @@ body {
   max-width: 1200px;
 }
 
+/* Customise button on sign up card */
 .customButtomSignUp {
   font-size: 2rem;
   padding-left: 1rem;
@@ -431,6 +371,7 @@ body {
 /* Login section */
 /* Login section */
 
+/* Inputs on login form/card */
 .loginInput {
   width: 90%;
   height: 3rem;
@@ -445,17 +386,47 @@ body {
   border-radius: 1rem;
 }
 
+/* Login card/form */
 .loginCard {
   border-radius: 1rem;
 }
 
+/* Hero text on login page */
 .loginUpHeroText {
   font-family: var(--roboto);
   font-size: 5rem;
 }
 
+/* MEDIA QUERIES */
+/* MEDIA QUERIES */
+/* MEDIA QUERIES */
+
+/* Apply styles from set size and below */
 @media (max-width: 768px) {
+  /* Hero text on login page */
   .loginUpHeroText {
     font-size: 3rem;
+  }
+}
+
+/* Apply style from set size and up */
+@media (min-width: 768px) {
+  /* Back to top arrow */
+  .backToTop {
+    position: fixed;
+    z-index: 999999;
+    bottom: 10px;
+    right: 20px;
+  }
+
+  /* Back to top arrow hover state */
+  .backToTop:hover {
+    cursor: pointer;
+  }
+
+  /* Container inside nav bar */
+  .innerNavContainer {
+    margin-left: 3rem;
+    margin-right: 3rem;
   }
 }

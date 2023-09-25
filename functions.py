@@ -1,8 +1,10 @@
-# Function from the app.py
+# Functions used in app.py
+# Functions used in app.py
 
 
 # function for post_like() route
 def updateLikes(current_user, request, Post, Like, db):
+    """Updates like on UI and Database"""
     user_id = current_user.id
     post_id = request.form.get("post_id")
 
@@ -23,7 +25,7 @@ def updateLikes(current_user, request, Post, Like, db):
 
 # function for signup()
 def signUpUser(form, bcrypt, User, db, flash, login_user):
-    """retrieve form data and add user to database"""
+    """Retrieves form data and adds User to database"""
 
     # Retrieve and store form data in variables
     username = form.username.data
@@ -47,8 +49,9 @@ def signUpUser(form, bcrypt, User, db, flash, login_user):
     login_user(user)
 
 
-# function for adding post to db in upload_post() route function
+# function for upload_post() route function
 def addPost(db, Image, Post, current_user, post_form, desc):
+    """Adds post to database"""
     # Query database to find most recent image
     img_tup = db.session.query(Image.id).order_by(Image.id.desc()).first()
     pic_id = img_tup[0]
@@ -61,8 +64,9 @@ def addPost(db, Image, Post, current_user, post_form, desc):
     db.session.commit()
 
 
-# reset post form to default state
+# function for upload_post() route function
 def resetFormPost(Image, db, desc, post_form):
+    """Resets post form to default state"""
     # Update state of most recent image in database
     most_recent_image = db.session.query(Image).order_by(desc(Image.id)).first()
     most_recent_image.draft = False
@@ -72,8 +76,9 @@ def resetFormPost(Image, db, desc, post_form):
     post_form.title.data = ""
 
 
-# Check user credentials and login user
+# function for login() route function
 def loginUser(User, form, bcrypt, login_user, flash):
+    """Check user credentials and login user"""
     user = User.query.filter_by(username=form.username.data).first()
     if user:
         if bcrypt.check_password_hash(user.password, form.password.data):
@@ -85,8 +90,9 @@ def loginUser(User, form, bcrypt, login_user, flash):
         flash("Username does not exist.")
 
 
-# function for deleting comment from UI & db
+# function for delete_comment() route function
 def deleteComment(request, db, Comment, current_user):
+    """Deletes comment from UI and Database"""
     db_comment_id = request.form.get("comment_id")
     comment = db.session.get(Comment, db_comment_id)
 
@@ -95,8 +101,9 @@ def deleteComment(request, db, Comment, current_user):
         db.session.commit()
 
 
-# Add post comment to database
+# Function for post_comment() route function
 def addComment(datetime, Comment, current_user, request, newComForm, db):
+    """Adds post comment to database"""
     # Get user current time
     timestamp = datetime.utcnow()
 
@@ -116,8 +123,9 @@ def addComment(datetime, Comment, current_user, request, newComForm, db):
     newComForm.comment.data = ""
 
 
-# upload an image to the UI and db
+# Function for upload_post_img() route function
 def uploadImage(request, secure_filename, app, os, flash, Image, current_user, db):
+    """Uploads image to UI and Database"""
     # Get uploaded image data
     file = request.files["upload"]
     filename = secure_filename(file.filename)
@@ -145,10 +153,11 @@ def uploadImage(request, secure_filename, app, os, flash, Image, current_user, d
     db.session.commit()
 
 
-# Update profile image in UI and DB
+# Function for post_dp() route function
 def updateProfileImage(
     request, secure_filename, app, os, flash, Image, current_user, db, User
 ):
+    """Update profile image in UI and DB"""
     # Get uploaded image data
     file = request.files["upload"]
     filename = secure_filename(file.filename)

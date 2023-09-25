@@ -1,3 +1,4 @@
+<!-- Template for handling all flash errors on all pages that inherit flash_errors.html -->
 {% with messages = get_flashed_messages() %} {% if messages %} {% for message in
 messages %}
 <div class="alert alert-danger mt-0">{{ message }}</div>

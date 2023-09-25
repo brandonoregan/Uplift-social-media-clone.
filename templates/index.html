@@ -1,15 +1,9 @@
-{% extends 'base.html' %} {% block title %}{% endblock %} {% block content %}
+{% extends 'base.html' %} {% block title %}Sign Up{% endblock %} {% block
+content %}
 <div class="container signUpContainer">
   <div class="row d-flex align-items-center vh-100">
     <!-- marketing hero text -->
     <div class="col ms-3">
-      <!-- <p>
-        Our mission at <span class="signUpHeroText">UPLIFT</span>is to transform
-        the way to world uses social media.
-        <span class="signUpHeroText">UPLIFT</span> is place to spread
-        positivety, find encouragement, build motivation. You won't find
-        hatespeech here.
-      </p> -->
       <h1 class="signUpHeroText d-md-block text-center text-md-start">
         UPLIFT
         <span class="d-md-block">the online world.</span>
@@ -50,7 +44,7 @@
             method="post"
             class="text-center"
           >
-            <!-- REFACTOR this code can be looped through to create each field and placed into a seperate html file and broguth back with the inlcudes jinja template -->
+            <!-- Create all inputs from wtform instance -->
             {{ form.csrf_token }}
             <div class="mb-3">{{ form.email(class="signUpInput") }}</div>
             <div class="mb-3">{{ form.username(class="signUpInput") }}</div>

@@ -44,25 +44,25 @@ from functions import (
 )
 
 
-# create an object of the Flask class
+# Create an object of the Flask class
 app = Flask(__name__)
 
-# configure prepooling on datavase connections
+# Configure prepooling on datavase connections
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {"pool_pre_ping": True}
 
-# load config settings from config.py
+# Load config settings from config.py
 app.config.from_object(Config)
 
-# initialize the SQLAlchemy instance with the app
+# Initialize the SQLAlchemy instance with the app
 db.init_app(app)
 
-# crate object of LoginManager class
+# Crate object of LoginManager class
 login_manager = LoginManager()
 
-# configure object for login
+# Configure object for login
 login_manager.init_app(app)
 
-# redirect users to login page when trying to access restricted pages
+# Redirect users to login page when trying to access restricted pages
 login_manager.login_view = "login"
 
 from models import User
@@ -70,7 +70,7 @@ from models import User
 # Set the path to the upload directory within the 'static' folder
 path = os.getcwd()
 
-# configure content length
+# Configure content length
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024
 
 # Get the absolute path of the current script
@@ -79,30 +79,29 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 # Define the path to the 'static' directory relative to the current script
 UPLOAD_FOLDER = os.path.join(current_dir, "static", "img")
 
-# configure uploade folder
+# Configure uploade folder
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
+# Create an object from the Bcrypt class
+bcrypt = Bcrypt(app)
 
-# this function instructs flask_login how to retireve user from db
+
+# Instructs flask_login how to retireve user from db
 @login_manager.user_loader
 def load_user(user_id):
     if user_id == "None":
         return None
     user = db.session.get(User, int(user_id))
-    # return User.query.get(int(user_id))
     return user
 
 
-# inject variables for all templates
+# Inject variables for all templates
 @app.context_processor
 def inject_variable():
     return dict(user=current_user)
 
 
-# create an object from the Bcrypt class
-bcrypt = Bcrypt(app)
-
-
+# Decorater activates the associated function when the specified route is accessed.
 @app.route("/")
 def render_signup():
     """Render specified page for GET request"""
@@ -118,10 +117,10 @@ def signup():
     form = SignUpForm()
 
     if form.validate_on_submit():
-        # add new user to database
+        # Add new user to database
         signUpUser(form, bcrypt, User, db, flash, login_user)
 
-        # redirect user to approriate page
+        # Redirect user to approriate page
         return redirect(url_for("render_home"))
 
     # If form validation fails, render the appropriate page
@@ -135,7 +134,6 @@ def render_login():
     return render_template("login.html", form=form)
 
 
-# This decorater activates the associated function when the specified route is accessed.
 @app.route("/login", methods=["POST"])
 def login():
     """Handle form submission for POST request"""
@@ -172,7 +170,7 @@ def render_home():
     user_dp = Image.query.filter_by(id=current_user.pic_id).first()
     most_recent_image = db.session.query(Image).order_by(desc(Image.id)).first()
 
-    # Dictionary to store user with the comments they made
+    # Dictionary to store users with the comments they've made
     comment_user_mapping = {}
 
     # Store current user time in variable
@@ -275,7 +273,6 @@ def upload_post_img():
     )
 
 
-# This decorater activate the associated function when the specified route is accessed.
 @app.route("/profile")
 @login_required
 def render_profile():
@@ -315,7 +312,6 @@ def post_dp():
     )
 
 
-# This decorator will redirect the user, activating the login function
 @app.route("/logout")
 @login_required
 def logout():
