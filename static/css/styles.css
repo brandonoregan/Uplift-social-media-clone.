@@ -110,12 +110,6 @@ body {
 /* HOME SECTION */
 /* HOME SECTION */
 
-@media (min-width: 768px) {
-  .leftColHome {
-    /* top: 58px; */
-  }
-}
-
 .homeContainer {
   max-width: 1200px;
 }
@@ -153,6 +147,20 @@ body {
 
 .radius {
   border-radius: 1rem;
+}
+
+/* Will only aplly inner style from set size and up */
+@media (min-width: 768px) {
+  .backToTop {
+    position: fixed;
+    z-index: 999999;
+    bottom: 10px;
+    right: 20px;
+  }
+}
+
+.backToTop:hover {
+  cursor: pointer;
 }
 
 /* The card container that hold each post */

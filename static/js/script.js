@@ -3,10 +3,14 @@
 const commentDisplayButtons = document.querySelectorAll(
   ".commentDisplayButtons"
 );
-const hideComments = document.getElementById("hideComments");
-const viewComments = document.getElementById("viewComments");
-const commentThreadLong = document.querySelector(".commentThreadLong");
-const commentThreadShort = document.querySelector(".commentThreadShort");
+const backToTop = document.querySelector(".backToTop");
+
+backToTop.addEventListener("click", function () {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+});
 
 // Toggle hidden on all new com buttons
 commentDisplayButtons.forEach(function (button) {
@@ -26,8 +30,6 @@ commentDisplayButtons.forEach(function (button) {
 
 // Prevent forms submitting multiple times with multiple clicks
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("JavaScript executed");
-
   // select all elemts with the class submitButton
   const submitButtons = document.querySelectorAll(".submitButton");
 
@@ -152,12 +154,57 @@ if (window.location.pathname === "/home") {
   });
 }
 
-hideComments.addEventListener("click", function () {
-  commentThreadLong.classList.toggle("hidden");
-  commentThreadShort.classList.toggle("hidden");
-});
+// const hideComments = document.getElementById("hideComments");
+// const viewComments = document.getElementById("viewComments");
 
-viewComments.addEventListener("click", function () {
-  commentThreadLong.classList.toggle("hidden");
-  commentThreadShort.classList.toggle("hidden");
-});
+// document.addEventListener("DOMContentLoaded", function () {
+//   const viewCommentButtons = document.querySelectorAll(".viewComments");
+//   const hideCommentButtons = document.querySelectorAll(".hideComments");
+//   const commentThreadLongs = document.querySelectorAll(".commentThreadLong");
+//   const commentThreadShorts = document.querySelectorAll(".commentThreadShort");
+
+//   viewCommentButtons.forEach(function (viewButton) {
+//     viewButton.addEventListener("click", function (e) {
+//       commentThreadLongs.forEach(function (button) {
+//         button.classList.toggle("hidden");
+//       });
+//       console.log("View Clicked ");
+//     });
+//   });
+
+//   hideCommentButtons.forEach(function (hideButton) {
+//     hideButton.addEventListener("click", function (e) {
+//       commentThreadShorts.forEach(function (button) {
+//         button.classList.toggle("hidden");
+//       });
+//       console.log("Hide Clicked");
+//     });
+//   });
+// });
+
+// const postCards = document.querySelectorAll(".postCards");
+// const commentThreadLong = document.querySelector(".commentThreadLong");
+
+// document.addEventListener("DOMContentLoaded", function () {
+//   commentThreadLong.classList.add("hidden");
+// });
+
+// postCards.forEach(function (post) {
+//   post.addEventListener("click", function (e) {
+//     const closestViewButton = e.target.closest(".viewComments");
+//     const closestHideButton = e.target.closest(".hideComments");
+//     const closestShortThread = e.target.closest(".commentThreadShort");
+//     const closestLongThread = e.target.closest(".commentThreadLong");
+
+//     if (closestViewButton) {
+//       closestShortThread.classList.toggle("hidden");
+//       commentThreadLong.classList.toggle("hidden");
+//       console.log("Bingo");
+//     } else if (closestHideButton) {
+//       closestShortThread.classList.toggle("hidden");
+//       commentThreadLong.classList.toggle("hidden");
+//     } else {
+//       console.log("WHOOOPS");
+//     }
+//   });
+// });
