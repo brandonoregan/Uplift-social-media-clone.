@@ -1,0 +1,7 @@
+# UCD Database Assessment
+
+## How to access this website
+
+Simply follow the following link to access this project.
+
+https://dressme-ucd-databases-assessment.onrender.com/
