@@ -88,6 +88,6 @@ class imageForm(FlaskForm):
 # Class for creating post on post form
 class postForm(FlaskForm):
     title = StringField(
-        "Post title:", render_kw={"placeholder": "Tell us about what you're wearing?"}
+        "Post title:", render_kw={"placeholder": "Tell us about your post..."}
     )
     submit = SubmitField("Upload post", id="submitButton")
