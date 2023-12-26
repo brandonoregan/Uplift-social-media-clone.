@@ -1,4 +1,4 @@
-UPLIFT - Social Media Clone
+# UPLIFT - Social Media Clone
 
 ## Project Concept
 Uplift is a simple social media clone where users have the ability to post, comment, like and share images and thoughts.
