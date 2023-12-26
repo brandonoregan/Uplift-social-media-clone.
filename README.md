@@ -13,8 +13,8 @@ Uplift was built to help sharpen my fundamental programming skills. Uplift isn't
 - Bootstrap
 - JavaScript
 - Python
-- Django
-- Postgres
+- Flask
+- PostgreSQL
 
 ## Preview
 ![Screenshot 2023-12-26 193951](https://github.com/brandonoregan/Uplift-social-media-clone./assets/100802480/ccde7123-e8c7-4da5-ac73-4b52a9444b80)
